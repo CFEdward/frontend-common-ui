@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "FrontendUI",
+	"Description": "Frontend UI System using Common UI",
+	"Category": "Other",
+	"CreatedBy": "Eduard Ciofu",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "FrontendUI",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
