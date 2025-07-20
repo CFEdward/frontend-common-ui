@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Eduard Ciofu All Rights Reserved
 
 #pragma once
 

@@ -1,4 +1,6 @@
-﻿#include "UI_GameplayTags.h"
+﻿// Eduard Ciofu All Rights Reserved
+
+#include "UI_GameplayTags.h"
 
 namespace FrontendGameplayTags
 {
