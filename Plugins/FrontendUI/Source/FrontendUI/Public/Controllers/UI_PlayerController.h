@@ -13,7 +13,7 @@ class FRONTENDUI_API AUI_PlayerController : public APlayerController
 
 protected:
 
-	//~ Begin APlayerController Interface
+	/** APlayerController Interface */
 	virtual void OnPossess(APawn* aPawn) override;
-	//~ End APlayerController Interface
+	/** end APlayerController Interface */
 };
