@@ -20,9 +20,13 @@ public:
 
 protected:
 
-	/** UUserWidget Parent */
+	/** UCommonButtonBase Parent */
 	virtual void NativePreConstruct() override;
-	/** end UUserWidget Parent */
+	/** end UCommonButtonBase Parent */
+
+	/** UCommonButtonBase Parent */
+	virtual void NativeOnCurrentTextStyleChanged() override;
+	/** end UCommonButtonBase Parent */
 	
 private:
 

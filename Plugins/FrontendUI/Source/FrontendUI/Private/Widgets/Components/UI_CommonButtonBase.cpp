@@ -12,6 +12,16 @@ void UUI_CommonButtonBase::NativePreConstruct()
 	SetButtonText(ButtonDisplayText);
 }
 
+void UUI_CommonButtonBase::NativeOnCurrentTextStyleChanged()
+{
+	Super::NativeOnCurrentTextStyleChanged();
+
+	if (CommonTextBlock_ButtonText)
+	{
+		CommonTextBlock_ButtonText->SetStyle(GetCurrentTextStyleClass());
+	}
+}
+
 void UUI_CommonButtonBase::SetButtonText(const FText InText) const
 {
 	if (CommonTextBlock_ButtonText && !InText.IsEmpty())
