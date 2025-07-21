@@ -17,5 +17,6 @@ namespace Frontend
 		UE_DEFINE_GAMEPLAY_TAG(PressAnyKeyScreen, "Frontend.Widget.PressAnyKeyScreen");
 		UE_DEFINE_GAMEPLAY_TAG(MainMenuScreen, "Frontend.Widget.MainMenuScreen");
 		UE_DEFINE_GAMEPLAY_TAG(ConfirmScreen, "Frontend.Widget.ConfirmScreen");
+		UE_DEFINE_GAMEPLAY_TAG(StoryScreen, "Frontend.Widget.StoryScreen");
 	}
 }
