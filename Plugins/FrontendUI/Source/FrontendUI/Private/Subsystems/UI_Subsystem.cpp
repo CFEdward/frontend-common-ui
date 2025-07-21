@@ -89,13 +89,13 @@ void UUI_Subsystem::PushConfirmScreenToModalStackAsync(const EConfirmScreenType 
 		Frontend::WidgetStack::Modal,
 		UUI_BlueprintLibrary::GetFrontendSoftWidgetClassByTag(Frontend::Widget::ConfirmScreen),
 		[CreatedInfoObject, ButtonClickedCallback](const EAsyncPushWidgetState InPushState, UUIWidget_ActivatableBase* PushedWidget)
+		{
+			if (InPushState == EAsyncPushWidgetState::OnCreatedBeforePush)
 			{
-				if (InPushState == EAsyncPushWidgetState::OnCreatedBeforePush)
-				{
-					UUIWidget_ConfirmScreen* CreatedConfirmScreen = CastChecked<UUIWidget_ConfirmScreen>(PushedWidget);
-					CreatedConfirmScreen->InitConfirmScreen(CreatedInfoObject, ButtonClickedCallback);
-				}
+				UUIWidget_ConfirmScreen* CreatedConfirmScreen = CastChecked<UUIWidget_ConfirmScreen>(PushedWidget);
+				CreatedConfirmScreen->InitConfirmScreen(CreatedInfoObject, ButtonClickedCallback);
 			}
+		}
 	);
 }
 

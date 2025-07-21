@@ -41,7 +41,7 @@ void UUIAsyncA_PushSoftWidget::Activate()
 	);
 }
 
-UUIAsyncA_PushSoftWidget* UUIAsyncA_PushSoftWidget::PushSoftWidget(const UObject* WorldContextObject, APlayerController* OwningPlayerController, TSoftClassPtr<UUIWidget_ActivatableBase> InSoftWidgetClass, FGameplayTag InWidgetStackTag, bool bFocusOnNewlyPushedWidget)
+UUIAsyncA_PushSoftWidget* UUIAsyncA_PushSoftWidget::PushSoftWidget(const UObject* WorldContextObject, APlayerController* OwningPlayerController, const TSoftClassPtr<UUIWidget_ActivatableBase> InSoftWidgetClass, const FGameplayTag InWidgetStackTag, const bool bFocusOnNewlyPushedWidget)
 {
 	checkf(!InSoftWidgetClass.IsNull(), TEXT("PushSoftWidgetToStack was passed a null soft widget class"));
 	if (GEngine)
