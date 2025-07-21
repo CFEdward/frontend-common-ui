@@ -9,7 +9,7 @@
 
 class UUIWidget_ActivatableBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPushSoftWidgetDelegate, UUIWidget_ActivatableBase*, PushedWidget);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPushSoftWidget, UUIWidget_ActivatableBase*, PushedWidget);
 
 UCLASS()
 class FRONTENDUI_API UUIAsyncA_PushSoftWidget : public UBlueprintAsyncActionBase
@@ -26,9 +26,9 @@ public:
 	static UUIAsyncA_PushSoftWidget* PushSoftWidget(const UObject* WorldContextObject, APlayerController* OwningPlayerController, TSoftClassPtr<UUIWidget_ActivatableBase> InSoftWidgetClass, UPARAM(meta = (Categories = "Frontend.WidgetStack")) FGameplayTag InWidgetStackTag, bool bFocusOnNewlyPushedWidget = true);
 
 	UPROPERTY(BlueprintAssignable)
-	FOnPushSoftWidgetDelegate OnWidgetCreatedBeforePush;
+	FOnPushSoftWidget OnWidgetCreatedBeforePush;
 	UPROPERTY(BlueprintAssignable)
-	FOnPushSoftWidgetDelegate AfterPush;
+	FOnPushSoftWidget AfterPush;
 
 private:
 

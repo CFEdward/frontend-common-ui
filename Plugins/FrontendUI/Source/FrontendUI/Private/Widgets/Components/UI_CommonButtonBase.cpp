@@ -4,6 +4,7 @@
 #include "Widgets/Components/UI_CommonButtonBase.h"
 
 #include "CommonTextBlock.h"
+#include "Subsystems/UI_Subsystem.h"
 
 void UUI_CommonButtonBase::NativePreConstruct()
 {
@@ -16,10 +17,27 @@ void UUI_CommonButtonBase::NativeOnCurrentTextStyleChanged()
 {
 	Super::NativeOnCurrentTextStyleChanged();
 
-	if (CommonTextBlock_ButtonText)
+	if (CommonTextBlock_ButtonText && GetCurrentTextStyleClass())
 	{
 		CommonTextBlock_ButtonText->SetStyle(GetCurrentTextStyleClass());
 	}
+}
+
+void UUI_CommonButtonBase::NativeOnHovered()
+{
+	Super::NativeOnHovered();
+
+	if (!ButtonDescriptionText.IsEmpty())
+	{
+		UUI_Subsystem::Get(this)->OnButtonDescriptionTextUpdated.Broadcast(this, ButtonDescriptionText);
+	}
+}
+
+void UUI_CommonButtonBase::NativeOnUnhovered()
+{
+	Super::NativeOnUnhovered();
+
+	UUI_Subsystem::Get(this)->OnButtonDescriptionTextUpdated.Broadcast(this, FText::GetEmpty());
 }
 
 void UUI_CommonButtonBase::SetButtonText(const FText InText) const
