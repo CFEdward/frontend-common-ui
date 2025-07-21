@@ -25,7 +25,9 @@ public class FrontendUI : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "CommonUI"
+				"Core",
+				"CommonUI",
+				"DeveloperSettings"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
