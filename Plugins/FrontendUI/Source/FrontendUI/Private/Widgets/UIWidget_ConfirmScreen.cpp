@@ -87,10 +87,6 @@ void UUIWidget_ConfirmScreen::InitConfirmScreen(UUI_ConfirmScreenInfoObject* InS
 		
 		switch (AvailableButtonInfo.ConfirmScreenButtonType)
 		{
-		case EConfirmScreenButtonType::Confirmed:
-			InputActionRowHandle = ICommonInputModule::GetSettings().GetDefaultClickAction();
-			break;
-
 		case EConfirmScreenButtonType::Cancelled:
 			InputActionRowHandle = ICommonInputModule::GetSettings().GetDefaultBackAction();
 			break;
@@ -105,7 +101,7 @@ void UUIWidget_ConfirmScreen::InitConfirmScreen(UUI_ConfirmScreenInfoObject* InS
 		
 		UUI_CommonButtonBase* AddedButton = DynamicEntryBox_Buttons->CreateEntry<UUI_CommonButtonBase>();
 		AddedButton->SetButtonText(AvailableButtonInfo.ButtonTextToDisplay);
-		AddedButton->SetTriggeredInputAction(InputActionRowHandle);
+		AddedButton->SetTriggeringInputAction(InputActionRowHandle);
 		AddedButton->OnClicked().AddLambda([this, ClickedButtonCallback, AvailableButtonInfo]()
 			{
 				ClickedButtonCallback(AvailableButtonInfo.ConfirmScreenButtonType);
@@ -113,11 +109,17 @@ void UUIWidget_ConfirmScreen::InitConfirmScreen(UUI_ConfirmScreenInfoObject* InS
 			}
 		);
 	}
+}
 
+UWidget* UUIWidget_ConfirmScreen::NativeGetDesiredFocusTarget() const
+{
+	// Set focus on the last button so Gamepad has an option to start with.
 	if (DynamicEntryBox_Buttons->GetNumEntries() != 0)
 	{
 		// Set focus on the last button. So if there are two buttons, ex.
 		// one is Yes, one is No, our gamepad will focus on the No Button
 		DynamicEntryBox_Buttons->GetAllEntries().Last()->SetFocus();
 	}
+	
+	return Super::NativeGetDesiredFocusTarget();
 }

@@ -53,6 +53,12 @@ public:
 
 	/** Gets called outside the class when this widget is constructed, and before it's pushed to the stack */
 	void InitConfirmScreen(UUI_ConfirmScreenInfoObject* InScreenInfoObject, TFunction<void(EConfirmScreenButtonType)> ClickedButtonCallback);
+
+protected:
+
+	/** UCommonActivatableWidget Parent */
+	virtual UWidget* NativeGetDesiredFocusTarget() const override;
+	/** end UCommonActivatableWidget Parent */
 	
 private:
 	
