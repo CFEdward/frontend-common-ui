@@ -27,7 +27,8 @@ public class FrontendUI : ModuleRules
 			{
 				"Core",
 				"CommonUI",
-				"DeveloperSettings"
+				"DeveloperSettings",
+				"CommonInput"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

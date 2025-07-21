@@ -49,6 +49,11 @@ class FRONTENDUI_API UUIWidget_ConfirmScreen : public UUIWidget_ActivatableBase
 {
 	GENERATED_BODY()
 
+public:
+
+	/** Gets called outside the class when this widget is constructed, and before it's pushed to the stack */
+	void InitConfirmScreen(UUI_ConfirmScreenInfoObject* InScreenInfoObject, TFunction<void(EConfirmScreenButtonType)> ClickedButtonCallback);
+	
 private:
 	
 	UPROPERTY(meta = (BindWidget))
