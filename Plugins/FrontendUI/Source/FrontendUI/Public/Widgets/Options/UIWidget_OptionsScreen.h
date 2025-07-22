@@ -11,5 +11,19 @@ class FRONTENDUI_API UUIWidget_OptionsScreen : public UUIWidget_ActivatableBase
 {
 	GENERATED_BODY()
 
+protected:
 	
+	/** UUserWidget Parent */
+	virtual void NativeOnInitialized() override;
+	/** end UUserWidget Parent */
+
+private:
+	
+	void OnResetBoundActionTriggered();
+	void OnBackBoundActionTriggered();
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Frontend Options Screen", meta = (RowType = "/Script/CommonUI.CommonInputActionDataBase"))
+	FDataTableRowHandle ResetAction;
+
+	FUIActionBindingHandle ResetActionHandle;
 };
