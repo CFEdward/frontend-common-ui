@@ -1,0 +1,43 @@
+﻿// Eduard Ciofu All Rights Reserved
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/Object.h"
+#include "UI_ListDataObject_Base.generated.h"
+
+#define LIST_DATA_ACCESSOR(DataType, PropertyName)													\
+	FORCEINLINE DataType Get##PropertyName() const { return PropertyName; }							\
+	void Set##PropertyName(const DataType& In##PropertyName) { PropertyName = In##PropertyName; }
+
+UCLASS()
+class FRONTENDUI_API UUI_ListDataObject_Base : public UObject
+{
+	GENERATED_BODY()
+
+public:
+
+	/**
+	 * Empty in the base class. Child class ListDataObject_Collection should override it.
+	 * The function should return all the child data a tab has
+	 */
+	virtual TArray<UUI_ListDataObject_Base*> GetChildSettingData() const { return TArray<UUI_ListDataObject_Base*>(); }
+
+	LIST_DATA_ACCESSOR(FName, DataID);
+	LIST_DATA_ACCESSOR(FText, DataDisplayName);
+	LIST_DATA_ACCESSOR(FText, DescriptionRichText);
+	LIST_DATA_ACCESSOR(FText, DisabledRichText);
+	LIST_DATA_ACCESSOR(TSoftObjectPtr<UTexture2D>, SoftDescriptionImage);
+	LIST_DATA_ACCESSOR(TObjectPtr<UUI_ListDataObject_Base>, ParentData);
+	
+private:
+
+	FName DataID;
+	FText DataDisplayName;
+	FText DescriptionRichText;
+	FText DisabledRichText;
+	TSoftObjectPtr<UTexture2D> SoftDescriptionImage;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UUI_ListDataObject_Base> ParentData;
+};
