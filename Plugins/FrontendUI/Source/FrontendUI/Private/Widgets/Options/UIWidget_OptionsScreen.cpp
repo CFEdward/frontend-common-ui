@@ -32,13 +32,15 @@ void UUIWidget_OptionsScreen::NativeOnInitialized()
 			FSimpleDelegate::CreateUObject(this, &ThisClass::OnBackBoundActionTriggered)
 		)
 	);
+
+	TabListWidget_OptionsTabs->OnTabSelected.AddUniqueDynamic(this, &ThisClass::OnOptionsTabSelected);
 }
 
 void UUIWidget_OptionsScreen::NativeOnActivated()
 {
 	Super::NativeOnActivated();
 
-	for (UUI_ListDataObject_Collection* TabCollection : GetOrCreateDataRegistry()->GetRegisteredOptionsTabCollections())
+	for (const UUI_ListDataObject_Collection* TabCollection : GetOrCreateDataRegistry()->GetRegisteredOptionsTabCollections())
 	{
 		if (!TabCollection)
 		{
@@ -75,4 +77,9 @@ void UUIWidget_OptionsScreen::OnResetBoundActionTriggered()
 void UUIWidget_OptionsScreen::OnBackBoundActionTriggered()
 {
 	DeactivateWidget();
+}
+
+void UUIWidget_OptionsScreen::OnOptionsTabSelected(FName TabId)
+{
+	Debug::Print(TEXT("New Tab Selected. Tab ID: ") + TabId.ToString());
 }
