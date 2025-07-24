@@ -21,3 +21,8 @@ void UUI_TabListWidgetBase::ValidateCompiledDefaults(class IWidgetCompilerLog& C
 	}
 }
 #endif
+
+void UUI_TabListWidgetBase::RequestRegisterTab(const FName& InTabID, const FText& InTabDisplayName)
+{
+	
+}

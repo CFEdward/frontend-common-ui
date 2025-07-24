@@ -20,6 +20,8 @@ public:
 	virtual void ValidateCompiledDefaults(class IWidgetCompilerLog& CompileLog) const override;
 #endif
 	/** end UWidget Parent */
+
+	void RequestRegisterTab(const FName& InTabID, const FText& InTabDisplayName);
 	
 private:
 
