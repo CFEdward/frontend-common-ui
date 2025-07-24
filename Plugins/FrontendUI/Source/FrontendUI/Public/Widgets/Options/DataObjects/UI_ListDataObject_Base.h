@@ -17,11 +17,14 @@ class FRONTENDUI_API UUI_ListDataObject_Base : public UObject
 
 public:
 
+	void InitDataObject();
+	
 	/**
 	 * Empty in the base class. Child class ListDataObject_Collection should override it.
 	 * The function should return all the child data a tab has
 	 */
-	virtual TArray<UUI_ListDataObject_Base*> GetChildSettingData() const { return TArray<UUI_ListDataObject_Base*>(); }
+	virtual TArray<UUI_ListDataObject_Base*> GetAllChildListData() const { return TArray<UUI_ListDataObject_Base*>(); }
+	virtual bool HasAnyChildListData() const { return false; }
 
 	LIST_DATA_ACCESSOR(FName, DataID);
 	LIST_DATA_ACCESSOR(FText, DataDisplayName);
@@ -29,6 +32,11 @@ public:
 	LIST_DATA_ACCESSOR(FText, DisabledRichText);
 	LIST_DATA_ACCESSOR(TSoftObjectPtr<UTexture2D>, SoftDescriptionImage);
 	LIST_DATA_ACCESSOR(TObjectPtr<UUI_ListDataObject_Base>, ParentData);
+
+protected:
+
+	/** Empty in base class. The child classes should override it to handle the initialization needed accordingly */
+	virtual void OnDataObjectInitialized() {}
 	
 private:
 
