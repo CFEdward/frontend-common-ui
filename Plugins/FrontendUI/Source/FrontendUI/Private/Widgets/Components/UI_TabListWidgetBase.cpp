@@ -24,5 +24,10 @@ void UUI_TabListWidgetBase::ValidateCompiledDefaults(class IWidgetCompilerLog& C
 
 void UUI_TabListWidgetBase::RequestRegisterTab(const FName& InTabID, const FText& InTabDisplayName)
 {
-	
+	RegisterTab(InTabID, TabButtonEntryWidgetClass, nullptr);
+
+	if (const UUI_CommonButtonBase* FoundButton = Cast<UUI_CommonButtonBase>(GetTabButtonBaseByID(InTabID)))
+	{
+		FoundButton->SetButtonText(InTabDisplayName);
+	}
 }
