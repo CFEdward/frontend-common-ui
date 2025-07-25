@@ -61,7 +61,8 @@ protected:
 	/** end UCommonActivatableWidget Parent */
 	
 private:
-	
+
+	/*************** Bound Widgets ***************/
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCommonTextBlock> CommonTextBlock_Title;
 
@@ -70,4 +71,5 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UDynamicEntryBox> DynamicEntryBox_Buttons;
+	/*************** Bound Widgets ***************/
 };
