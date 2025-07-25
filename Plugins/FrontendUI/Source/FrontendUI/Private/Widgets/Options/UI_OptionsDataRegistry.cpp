@@ -67,3 +67,16 @@ void UUI_OptionsDataRegistry::InitControlCollectionTab()
 
 	RegisteredOptionsTabCollections.Add(ControlTabCollection);
 }
+
+TArray<UUI_ListDataObject_Base*> UUI_OptionsDataRegistry::GetListSourceItemsBySelectedTabID(const FName& InSelectedTabID) const
+{
+	const UUI_ListDataObject_Collection* FoundTabCollection = RegisteredOptionsTabCollections.FindByPredicate(
+		[InSelectedTabID](const UUI_ListDataObject_Collection* AvailableTabCollection)->bool
+		{
+			return AvailableTabCollection->GetDataID() == InSelectedTabID;
+		}
+	)->Get();
+	checkf(FoundTabCollection, TEXT("No valid tab found under the ID %s"), *InSelectedTabID.ToString());
+
+	return FoundTabCollection->GetAllChildListData();
+}

@@ -6,6 +6,7 @@
 #include "UObject/Object.h"
 #include "UI_OptionsDataRegistry.generated.h"
 
+class UUI_ListDataObject_Base;
 class UUI_ListDataObject_Collection;
 
 UCLASS()
@@ -19,6 +20,8 @@ public:
 	void InitOptionsDataRegistry(ULocalPlayer* InOwningLocalPlayer);
 
 	const TArray<UUI_ListDataObject_Collection*>& GetRegisteredOptionsTabCollections() const { return RegisteredOptionsTabCollections; }
+
+	TArray<UUI_ListDataObject_Base*> GetListSourceItemsBySelectedTabID(const FName& InSelectedTabID) const;
 
 private:
 
