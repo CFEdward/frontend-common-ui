@@ -30,7 +30,12 @@ UUserWidget& UUI_CommonListView::OnGenerateEntryWidgetInternal(UObject* Item, TS
 	{
 		return Super::OnGenerateEntryWidgetInternal(Item, DesiredEntryClass, OwnerTable);
 	}
-
-	const TSubclassOf<UUIWidget_ListEntry_Base> FoundWidgetClass = DataListEntryMapping->FindEntryWidgetClassByDataObject(CastChecked<UUI_ListDataObject_Base>(Item));
-	return GenerateTypedEntry<UUIWidget_ListEntry_Base>(FoundWidgetClass, OwnerTable);
+	if (const TSubclassOf<UUIWidget_ListEntry_Base> FoundWidgetClass = DataListEntryMapping->FindEntryWidgetClassByDataObject(CastChecked<UUI_ListDataObject_Base>(Item)))
+	{
+		return GenerateTypedEntry<UUIWidget_ListEntry_Base>(FoundWidgetClass, OwnerTable);
+	}
+	else
+	{
+		return Super::OnGenerateEntryWidgetInternal(Item, DesiredEntryClass, OwnerTable);
+	}
 }
