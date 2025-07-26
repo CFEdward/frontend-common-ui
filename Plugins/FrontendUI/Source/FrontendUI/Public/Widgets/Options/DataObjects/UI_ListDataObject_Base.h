@@ -10,7 +10,7 @@
 	FORCEINLINE DataType Get##PropertyName() const { return PropertyName; }							\
 	void Set##PropertyName(const DataType& In##PropertyName) { PropertyName = In##PropertyName; }
 
-UCLASS()
+UCLASS(Abstract)
 class FRONTENDUI_API UUI_ListDataObject_Base : public UObject
 {
 	GENERATED_BODY()
