@@ -18,12 +18,12 @@ private:
 
 	/*************** Bound Widgets ***************/
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
-	TObjectPtr<UUI_CommonButtonBase> CommonButton_Decrease;
+	TObjectPtr<UUI_CommonButtonBase> CommonButton_PreviousOption;
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UUI_CommonRotator> CommonRotator_AvailableOptions;
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
-	TObjectPtr<UUI_CommonButtonBase> CommonButton_Increase;
+	TObjectPtr<UUI_CommonButtonBase> CommonButton_NextOption;
 	/*************** Bound Widgets ***************/
 };
