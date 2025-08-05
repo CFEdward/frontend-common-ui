@@ -17,6 +17,12 @@ public:
 	
 protected:
 
+	/** UUI_ListDataObject_Base Parent */
+	virtual void OnDataObjectInitialized() override;
+	/** end UUI_ListDataObject_Base Parent */
+
+	bool TrySetDisplayTextFromStringValue(const FString& InStringValue);
+	
 	FString CurrentStringValue;
 	FText CurrentDisplayText;
 	TArray<FString> AvailableOptionsStringArray;
