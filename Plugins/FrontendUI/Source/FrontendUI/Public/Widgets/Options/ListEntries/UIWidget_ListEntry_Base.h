@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "CommonUserWidget.h"
 #include "Blueprint/IUserObjectListEntry.h"
+#include "UITypes/UIEnumTypes.h"
 #include "UIWidget_ListEntry_Base.generated.h"
 
 class UUI_ListDataObject_Base;
@@ -23,6 +24,12 @@ protected:
 
 	/** The child class should override this function to handle the initialization needed. Super call is expected */
 	virtual void OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject);
+
+	/**
+	 * The child class should override this function to update the UI values after the data object has been modified.
+	 * Super call not needed.
+	 */
+	virtual void OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason);
 
 private:
 

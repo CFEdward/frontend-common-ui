@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UITypes/UIEnumTypes.h"
 #include "UObject/Object.h"
 #include "UI_ListDataObject_Base.generated.h"
 
@@ -17,6 +18,8 @@ class FRONTENDUI_API UUI_ListDataObject_Base : public UObject
 
 public:
 
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnListDataModified, UUI_ListDataObject_Base*, EOptionsListDataModifyReason);
+
 	void InitDataObject();
 	
 	/**
@@ -25,6 +28,8 @@ public:
 	 */
 	virtual TArray<UUI_ListDataObject_Base*> GetAllChildListData() const { return TArray<UUI_ListDataObject_Base*>(); }
 	virtual bool HasAnyChildListData() const { return false; }
+
+	FOnListDataModified OnListDataModified;
 
 	LIST_DATA_ACCESSOR(FName, DataID);
 	LIST_DATA_ACCESSOR(FText, DataDisplayName);
@@ -37,6 +42,8 @@ protected:
 
 	/** Empty in base class. The child classes should override it to handle the initialization needed accordingly */
 	virtual void OnDataObjectInitialized() {}
+
+	virtual void NotifyListDataModified(UUI_ListDataObject_Base* ModifiedData, const EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModified);
 	
 private:
 

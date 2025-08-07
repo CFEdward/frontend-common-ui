@@ -20,6 +20,7 @@ void UUI_ListDataObject_String::AdvanceToNextOption()
 	CurrentStringValue = bIsNextIndexValid ? AvailableOptionsStringArray[NextIndexToDisplay] : AvailableOptionsStringArray[0];
 
 	TrySetDisplayTextFromStringValue(CurrentStringValue);
+	NotifyListDataModified(this);
 }
 
 void UUI_ListDataObject_String::BackToPreviousOption()
@@ -33,6 +34,7 @@ void UUI_ListDataObject_String::BackToPreviousOption()
 	CurrentStringValue = bIsPreviousIndexValid ? AvailableOptionsStringArray[PreviousIndexToDisplay] : AvailableOptionsStringArray.Last();
 
 	TrySetDisplayTextFromStringValue(CurrentStringValue);
+	NotifyListDataModified(this);
 }
 
 void UUI_ListDataObject_String::OnDataObjectInitialized()

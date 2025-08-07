@@ -7,3 +7,8 @@ void UUI_ListDataObject_Base::InitDataObject()
 {
 	OnDataObjectInitialized();
 }
+
+void UUI_ListDataObject_Base::NotifyListDataModified(UUI_ListDataObject_Base* ModifiedData, const EOptionsListDataModifyReason ModifyReason)
+{
+	OnListDataModified.Broadcast(ModifiedData, ModifyReason);
+}

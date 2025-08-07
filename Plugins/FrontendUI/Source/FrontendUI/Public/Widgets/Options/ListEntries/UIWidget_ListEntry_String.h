@@ -23,6 +23,7 @@ protected:
 	
 	/** UUIWidget_ListEntry_Base Parent */
 	virtual void OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject) override;
+	virtual void OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason) override;
 	/** end UUIWidget_ListEntry_Base Parent */
 	
 private:
