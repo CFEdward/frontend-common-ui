@@ -17,11 +17,18 @@ class FRONTENDUI_API UUIWidget_ListEntry_String : public UUIWidget_ListEntry_Bas
 	
 protected:
 
+	/** UUserWidget Parent */
+	virtual void NativeOnInitialized() override;
+	/** end UUserWidget Parent */
+	
 	/** UUIWidget_ListEntry_Base Parent */
 	virtual void OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject) override;
 	/** end UUIWidget_ListEntry_Base Parent */
 	
 private:
+
+	void OnPreviousOptionButtonClicked();
+	void OnNextOptionButtonClicked();
 
 	UPROPERTY(Transient)
 	TObjectPtr<UUI_ListDataObject_String> CachedOwningStringDataObject;
