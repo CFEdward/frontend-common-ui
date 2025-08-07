@@ -26,12 +26,18 @@ void UUIWidget_ListEntry_String::OnOwningListDataObjectSet(UUI_ListDataObject_Ba
 	CommonRotator_AvailableOptions->SetSelectedOptionByText(CachedOwningStringDataObject->GetCurrentDisplayText());
 }
 
-void UUIWidget_ListEntry_String::OnPreviousOptionButtonClicked()
+void UUIWidget_ListEntry_String::OnPreviousOptionButtonClicked() const
 {
-	Debug::Print(TEXT("Previous Option Button Clicked"));
+	if (CachedOwningStringDataObject)
+	{
+		CachedOwningStringDataObject->BackToPreviousOption();
+	}
 }
 
-void UUIWidget_ListEntry_String::OnNextOptionButtonClicked()
+void UUIWidget_ListEntry_String::OnNextOptionButtonClicked() const
 {
-	Debug::Print(TEXT("Next Option Button Clicked"));
+	if (CachedOwningStringDataObject)
+	{
+		CachedOwningStringDataObject->AdvanceToNextOption();
+	}
 }

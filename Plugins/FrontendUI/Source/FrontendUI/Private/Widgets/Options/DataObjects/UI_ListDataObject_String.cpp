@@ -9,6 +9,32 @@ void UUI_ListDataObject_String::AddDynamicOption(const FString& InStringValue, c
 	AvailableOptionsTextArray.Add(InDisplayText);
 }
 
+void UUI_ListDataObject_String::AdvanceToNextOption()
+{
+	if (AvailableOptionsStringArray.IsEmpty() || AvailableOptionsTextArray.IsEmpty()) return;
+
+	const int32 CurrentDisplayIndex = AvailableOptionsStringArray.IndexOfByKey(CurrentStringValue);
+	const int32 NextIndexToDisplay = CurrentDisplayIndex + 1;
+
+	const bool bIsNextIndexValid = AvailableOptionsStringArray.IsValidIndex(NextIndexToDisplay);
+	CurrentStringValue = bIsNextIndexValid ? AvailableOptionsStringArray[NextIndexToDisplay] : AvailableOptionsStringArray[0];
+
+	TrySetDisplayTextFromStringValue(CurrentStringValue);
+}
+
+void UUI_ListDataObject_String::BackToPreviousOption()
+{
+	if (AvailableOptionsStringArray.IsEmpty() || AvailableOptionsTextArray.IsEmpty()) return;
+
+	const int32 CurrentDisplayIndex = AvailableOptionsStringArray.IndexOfByKey(CurrentStringValue);
+	const int32 PreviousIndexToDisplay = CurrentDisplayIndex - 1;
+
+	const bool bIsPreviousIndexValid = AvailableOptionsStringArray.IsValidIndex(PreviousIndexToDisplay);
+	CurrentStringValue = bIsPreviousIndexValid ? AvailableOptionsStringArray[PreviousIndexToDisplay] : AvailableOptionsStringArray.Last();
+
+	TrySetDisplayTextFromStringValue(CurrentStringValue);
+}
+
 void UUI_ListDataObject_String::OnDataObjectInitialized()
 {
 	if (!AvailableOptionsStringArray.IsEmpty())

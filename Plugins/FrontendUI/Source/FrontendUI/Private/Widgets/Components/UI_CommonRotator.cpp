@@ -12,12 +12,6 @@ void UUI_CommonRotator::SetSelectedOptionByText(const FText& InTextOption)
 			return TextItem.EqualTo(InTextOption);
 		}
 	);
-	if (FoundIndex != INDEX_NONE)
-	{
-		SetSelectedItem(FoundIndex);
-	}
-	else
-	{
-		MyText->SetText(InTextOption);
-	}
+	
+	FoundIndex != INDEX_NONE ? SetSelectedItem(FoundIndex) : MyText->SetText(InTextOption);
 }

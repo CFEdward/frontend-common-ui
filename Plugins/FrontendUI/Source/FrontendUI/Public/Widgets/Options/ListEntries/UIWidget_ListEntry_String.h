@@ -27,8 +27,8 @@ protected:
 	
 private:
 
-	void OnPreviousOptionButtonClicked();
-	void OnNextOptionButtonClicked();
+	void OnPreviousOptionButtonClicked() const;
+	void OnNextOptionButtonClicked() const;
 
 	UPROPERTY(Transient)
 	TObjectPtr<UUI_ListDataObject_String> CachedOwningStringDataObject;
