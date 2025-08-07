@@ -6,6 +6,7 @@
 #include "UIWidget_ListEntry_Base.h"
 #include "UIWidget_ListEntry_String.generated.h"
 
+class UUI_ListDataObject_String;
 class UUI_CommonRotator;
 class UUI_CommonButtonBase;
 
@@ -13,9 +14,18 @@ UCLASS(Abstract, BlueprintType, meta = (DisableNativeTick))
 class FRONTENDUI_API UUIWidget_ListEntry_String : public UUIWidget_ListEntry_Base
 {
 	GENERATED_BODY()
+	
+protected:
 
+	/** UUIWidget_ListEntry_Base Parent */
+	virtual void OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject) override;
+	/** end UUIWidget_ListEntry_Base Parent */
+	
 private:
 
+	UPROPERTY(Transient)
+	TObjectPtr<UUI_ListDataObject_String> CachedOwningStringDataObject;
+	
 	/*************** Bound Widgets ***************/
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UUI_CommonButtonBase> CommonButton_PreviousOption;
