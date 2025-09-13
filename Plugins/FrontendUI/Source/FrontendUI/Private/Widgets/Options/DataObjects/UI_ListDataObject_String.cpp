@@ -3,6 +3,8 @@
 
 #include "Widgets/Options/DataObjects/UI_ListDataObject_String.h"
 
+#include "Widgets/Options/UI_OptionsDataInteractionHelper.h"
+
 void UUI_ListDataObject_String::AddDynamicOption(const FString& InStringValue, const FText& InDisplayText)
 {
 	AvailableOptionsStringArray.Add(InStringValue);
@@ -20,7 +22,11 @@ void UUI_ListDataObject_String::AdvanceToNextOption()
 	CurrentStringValue = bIsNextIndexValid ? AvailableOptionsStringArray[NextIndexToDisplay] : AvailableOptionsStringArray[0];
 
 	TrySetDisplayTextFromStringValue(CurrentStringValue);
-	NotifyListDataModified(this);
+	if (DataDynamicSetter)
+	{
+		DataDynamicSetter->SetValueFromString(CurrentStringValue);
+		NotifyListDataModified(this);
+	}
 }
 
 void UUI_ListDataObject_String::BackToPreviousOption()
@@ -34,7 +40,11 @@ void UUI_ListDataObject_String::BackToPreviousOption()
 	CurrentStringValue = bIsPreviousIndexValid ? AvailableOptionsStringArray[PreviousIndexToDisplay] : AvailableOptionsStringArray.Last();
 
 	TrySetDisplayTextFromStringValue(CurrentStringValue);
-	NotifyListDataModified(this);
+	if (DataDynamicSetter)
+	{
+		DataDynamicSetter->SetValueFromString(CurrentStringValue);
+		NotifyListDataModified(this);
+	}
 }
 
 void UUI_ListDataObject_String::OnDataObjectInitialized()
@@ -45,6 +55,13 @@ void UUI_ListDataObject_String::OnDataObjectInitialized()
 	}
 
 	// TODO: Read from the saved string value and use it to set the CurrentStringValue
+	if (DataDynamicGetter)
+	{
+		if (!DataDynamicGetter->GetValueAsString().IsEmpty())
+		{
+			CurrentStringValue = DataDynamicGetter->GetValueAsString();
+		}
+	}
 
 	if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
 	{

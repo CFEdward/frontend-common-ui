@@ -15,6 +15,12 @@ public:
 
 	static UUI_GameUserSettings* Get();
 
+	/********** Gameplay Collection Tab **********/
+	UFUNCTION()
+	FString GetCurrentGameDifficulty() const { return CurrentGameDifficulty; }
+	UFUNCTION()
+	void SetCurrentGameDifficulty(const FString& InNewGameDifficulty) { CurrentGameDifficulty = InNewGameDifficulty; }
+	
 private:
 
 	UPROPERTY(Config)
