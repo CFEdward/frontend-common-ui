@@ -36,7 +36,7 @@ private:
 	UFUNCTION()
 	void OnOptionsTabSelected(FName TabId);
 
-	void OnListViewItemHovered(UObject* InHoveredItem, bool bWasHovered);
+	void OnListViewItemHovered(UObject* InHoveredItem, const bool bWasHovered);
 	void OnListViewItemSelected(UObject* InSelectedItem);
 
 	/*************** Bound Widgets ***************/

@@ -16,6 +16,12 @@ class FRONTENDUI_API UUIWidget_ListEntry_Base : public UCommonUserWidget, public
 {
 	GENERATED_BODY()
 
+public:
+
+	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "On List Entry Widget Hovered"))
+	void BP_OnListEntryWidgetHovered(const bool bWasHovered, const bool bIsEntryWidgetStillSelected);
+	void NativeOnListEntryWidgetHovered(const bool bWasHovered);
+	
 protected:
 
 	/** IUserObjectListEntry Interface */

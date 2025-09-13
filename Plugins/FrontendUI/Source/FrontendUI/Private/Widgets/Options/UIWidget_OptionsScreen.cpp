@@ -11,6 +11,7 @@
 #include "Widgets/Components/UI_TabListWidgetBase.h"
 #include "Widgets/Options/UI_OptionsDataRegistry.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_Collection.h"
+#include "Widgets/Options/ListEntries/UIWidget_ListEntry_Base.h"
 
 void UUIWidget_OptionsScreen::NativeOnInitialized()
 {
@@ -103,21 +104,19 @@ void UUIWidget_OptionsScreen::OnOptionsTabSelected(const FName TabId)
 	}
 }
 
-void UUIWidget_OptionsScreen::OnListViewItemHovered(UObject* InHoveredItem, bool bWasHovered)
+void UUIWidget_OptionsScreen::OnListViewItemHovered(UObject* InHoveredItem, const bool bWasHovered)
 {
 	if (!InHoveredItem) return;
 
-	const FString DebugString = CastChecked<UUI_ListDataObject_Base>(InHoveredItem)->GetDataDisplayName().ToString() +
-		TEXT(" was ") +
-		(bWasHovered ? TEXT("hovered") : TEXT("unhovered"));
-	Debug::Print(DebugString);
+	UUIWidget_ListEntry_Base* HoveredEntryWidget = CommonListView_OptionsList->GetEntryWidgetFromItem<UUIWidget_ListEntry_Base>(InHoveredItem);
+	check(HoveredEntryWidget);
+
+	HoveredEntryWidget->NativeOnListEntryWidgetHovered(bWasHovered);
 }
 
 void UUIWidget_OptionsScreen::OnListViewItemSelected(UObject* InSelectedItem)
 {
 	if (!InSelectedItem) return;
 
-	const FString DebugString = CastChecked<UUI_ListDataObject_Base>(InSelectedItem)->GetDataDisplayName().ToString() +
-		TEXT(" was selected");
-	Debug::Print(DebugString);
+	
 }
