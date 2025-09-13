@@ -36,6 +36,9 @@ void UUIWidget_OptionsScreen::NativeOnInitialized()
 	);
 
 	TabListWidget_OptionsTabs->OnTabSelected.AddUniqueDynamic(this, &ThisClass::OnOptionsTabSelected);
+
+	CommonListView_OptionsList->OnItemIsHoveredChanged().AddUObject(this, &ThisClass::OnListViewItemHovered);
+	CommonListView_OptionsList->OnItemSelectionChanged().AddUObject(this, &ThisClass::OnListViewItemSelected);
 }
 
 void UUIWidget_OptionsScreen::NativeOnActivated()
@@ -98,4 +101,23 @@ void UUIWidget_OptionsScreen::OnOptionsTabSelected(const FName TabId)
 		CommonListView_OptionsList->NavigateToIndex(0);
 		CommonListView_OptionsList->SetSelectedIndex(0);
 	}
+}
+
+void UUIWidget_OptionsScreen::OnListViewItemHovered(UObject* InHoveredItem, bool bWasHovered)
+{
+	if (!InHoveredItem) return;
+
+	const FString DebugString = CastChecked<UUI_ListDataObject_Base>(InHoveredItem)->GetDataDisplayName().ToString() +
+		TEXT(" was ") +
+		(bWasHovered ? TEXT("hovered") : TEXT("unhovered"));
+	Debug::Print(DebugString);
+}
+
+void UUIWidget_OptionsScreen::OnListViewItemSelected(UObject* InSelectedItem)
+{
+	if (!InSelectedItem) return;
+
+	const FString DebugString = CastChecked<UUI_ListDataObject_Base>(InSelectedItem)->GetDataDisplayName().ToString() +
+		TEXT(" was selected");
+	Debug::Print(DebugString);
 }
