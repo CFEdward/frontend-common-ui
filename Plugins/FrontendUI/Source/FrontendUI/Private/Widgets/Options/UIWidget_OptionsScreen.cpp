@@ -6,6 +6,7 @@
 #include "ICommonInputModule.h"
 #include "UI_DebugHelper.h"
 #include "Input/CommonUIInputTypes.h"
+#include "UISettings/UI_GameUserSettings.h"
 #include "Widgets/Components/UI_CommonListView.h"
 #include "Widgets/Components/UI_TabListWidgetBase.h"
 #include "Widgets/Options/UI_OptionsDataRegistry.h"
@@ -58,6 +59,13 @@ void UUIWidget_OptionsScreen::NativeOnActivated()
 	}
 }
 
+void UUIWidget_OptionsScreen::NativeOnDeactivated()
+{
+	Super::NativeOnDeactivated();
+
+	UUI_GameUserSettings::Get()->ApplySettings(true);
+}
+
 UUI_OptionsDataRegistry* UUIWidget_OptionsScreen::GetOrCreateDataRegistry()
 {
 	if (!CreatedOwningDataRegistry)
@@ -65,7 +73,7 @@ UUI_OptionsDataRegistry* UUIWidget_OptionsScreen::GetOrCreateDataRegistry()
 		CreatedOwningDataRegistry = NewObject<UUI_OptionsDataRegistry>();
 		CreatedOwningDataRegistry->InitOptionsDataRegistry(GetOwningLocalPlayer());
 	}
-	checkf(CreatedOwningDataRegistry, TEXT("Data reigstry for options screen is not valid"));
+	checkf(CreatedOwningDataRegistry, TEXT("Data registry for options screen is not valid"));
 
 	return CreatedOwningDataRegistry;
 }

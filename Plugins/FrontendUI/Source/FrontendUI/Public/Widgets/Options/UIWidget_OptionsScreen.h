@@ -21,9 +21,10 @@ protected:
 	virtual void NativeOnInitialized() override;
 	/** end UUserWidget Parent */
 
-	/** UCommonUserWidget Parent */
+	/** UCommonActivatableWidget Parent */
 	virtual void NativeOnActivated() override;
-	/** end UCommonUserWidget Parent */
+	virtual void NativeOnDeactivated() override;
+	/** end UCommonActivatableWidget Parent */
 	
 private:
 

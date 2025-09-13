@@ -38,6 +38,8 @@ public:
 	LIST_DATA_ACCESSOR(TSoftObjectPtr<UTexture2D>, SoftDescriptionImage);
 	LIST_DATA_ACCESSOR(TObjectPtr<UUI_ListDataObject_Base>, ParentData);
 
+	void SetShouldApplySettingsImmediately(const bool bShouldApplyRightAway) { bShouldApplyChangeImmediately = bShouldApplyRightAway; }
+	
 protected:
 
 	/** Empty in base class. The child classes should override it to handle the initialization needed accordingly */
@@ -55,4 +57,6 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UUI_ListDataObject_Base> ParentData;
+
+	bool bShouldApplyChangeImmediately = false;
 };
