@@ -3,8 +3,13 @@
 
 #include "Widgets/Options/UI_OptionsDataRegistry.h"
 
+#include "UISettings/UI_GameUserSettings.h"
+#include "Widgets/Options/UI_OptionsDataInteractionHelper.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_Collection.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_String.h"
+
+#define MAKE_OPTIONS_DATA_CONTROL(SetterOrGetterFuncName)																			\
+	MakeShared<FUI_OptionsDataInteractionHelper>(GET_FUNCTION_NAME_STRING_CHECKED(UUI_GameUserSettings, SetterOrGetterFuncName))
 
 void UUI_OptionsDataRegistry::InitOptionsDataRegistry(ULocalPlayer* InOwningLocalPlayer)
 {
@@ -20,6 +25,12 @@ void UUI_OptionsDataRegistry::InitGameplayCollectionTab()
 	GameplayTabCollection->SetDataID(FName(TEXT("GameplayTabCollection")));
 	GameplayTabCollection->SetDataDisplayName(FText::FromString(TEXT("Gameplay")));
 
+	/*
+	TSharedPtr<FUI_OptionsDataInteractionHelper> ConstructedHelper = MakeShared<FUI_OptionsDataInteractionHelper>(
+		GET_FUNCTION_NAME_STRING_CHECKED(UUI_GameUserSettings, GetCurrentGameDifficulty)
+	);
+	*/
+	
 	// Game Difficulty
 	{
 		UUI_ListDataObject_String* GameDifficulty = NewObject<UUI_ListDataObject_String>();
@@ -29,6 +40,8 @@ void UUI_OptionsDataRegistry::InitGameplayCollectionTab()
 		GameDifficulty->AddDynamicOption(TEXT("Normal"), FText::FromString(TEXT("Normal")));
 		GameDifficulty->AddDynamicOption(TEXT("Hard"), FText::FromString(TEXT("Hard")));
 		GameDifficulty->AddDynamicOption(TEXT("Very Hard"), FText::FromString(TEXT("Very Hard")));
+		GameDifficulty->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetCurrentGameDifficulty));
+		GameDifficulty->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetCurrentGameDifficulty));
 
 		GameplayTabCollection->AddChildListData(GameDifficulty);
 	}

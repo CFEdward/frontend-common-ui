@@ -3,6 +3,7 @@
 
 #include "Widgets/Options/DataObjects/UI_ListDataObject_String.h"
 
+#include "UI_DebugHelper.h"
 #include "Widgets/Options/UI_OptionsDataInteractionHelper.h"
 
 void UUI_ListDataObject_String::AddDynamicOption(const FString& InStringValue, const FText& InDisplayText)
@@ -25,6 +26,7 @@ void UUI_ListDataObject_String::AdvanceToNextOption()
 	if (DataDynamicSetter)
 	{
 		DataDynamicSetter->SetValueFromString(CurrentStringValue);
+		Debug::Print(TEXT("DataDynamicSetter is used. The latest value from Getter: ") + DataDynamicGetter->GetValueAsString());
 		NotifyListDataModified(this);
 	}
 }
@@ -43,6 +45,7 @@ void UUI_ListDataObject_String::BackToPreviousOption()
 	if (DataDynamicSetter)
 	{
 		DataDynamicSetter->SetValueFromString(CurrentStringValue);
+		Debug::Print(TEXT("DataDynamicSetter is used. The latest value from Getter: ") + DataDynamicGetter->GetValueAsString());
 		NotifyListDataModified(this);
 	}
 }
