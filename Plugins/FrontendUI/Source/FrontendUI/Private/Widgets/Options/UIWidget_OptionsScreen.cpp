@@ -95,6 +95,8 @@ void UUIWidget_OptionsScreen::OnBackBoundActionTriggered()
 
 void UUIWidget_OptionsScreen::OnOptionsTabSelected(const FName TabId)
 {
+	DetailsView_ListEntryInfo->ClearDetailsViewInfo();
+	
 	const TArray<UUI_ListDataObject_Base*> FoundListSourceItems = GetOrCreateDataRegistry()->GetListSourceItemsBySelectedTabID(TabId);
 	CommonListView_OptionsList->SetListItems(FoundListSourceItems);
 
