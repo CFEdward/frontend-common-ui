@@ -26,8 +26,8 @@ public:
 	 * Empty in the base class. Child class ListDataObject_Collection should override it.
 	 * The function should return all the child data a tab has
 	 */
-	virtual TArray<UUI_ListDataObject_Base*> GetAllChildListData() const { return TArray<UUI_ListDataObject_Base*>(); }
-	virtual bool HasAnyChildListData() const { return false; }
+	FORCEINLINE virtual TArray<UUI_ListDataObject_Base*> GetAllChildListData() const { return TArray<UUI_ListDataObject_Base*>(); }
+	FORCEINLINE virtual bool HasAnyChildListData() const { return false; }
 
 	FOnListDataModified OnListDataModified;
 
@@ -41,9 +41,9 @@ public:
 	void SetShouldApplySettingsImmediately(const bool bShouldApplyRightAway) { bShouldApplyChangeImmediately = bShouldApplyRightAway; }
 
 	/** The child class should override them to provide implementations for resetting the data */
-	virtual bool HasDefaultValue() const { return false; }
-	virtual bool CanResetBackToDefaultValue() const { return false; }
-	virtual bool TryResetBackToDefaultValue() const { return false; }
+	FORCEINLINE virtual bool HasDefaultValue() const { return false; }
+	FORCEINLINE virtual bool CanResetBackToDefaultValue() const { return false; }
+	FORCEINLINE virtual bool TryResetBackToDefaultValue() { return false; }
 	
 protected:
 

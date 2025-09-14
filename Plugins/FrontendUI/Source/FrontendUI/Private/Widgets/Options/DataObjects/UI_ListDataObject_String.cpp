@@ -56,8 +56,7 @@ void UUI_ListDataObject_String::OnDataObjectInitialized()
 	{
 		CurrentStringValue = AvailableOptionsStringArray[0];
 	}
-
-	// TODO: Read from the saved string value and use it to set the CurrentStringValue
+	
 	if (DataDynamicGetter)
 	{
 		if (!DataDynamicGetter->GetValueAsString().IsEmpty())
@@ -70,6 +69,30 @@ void UUI_ListDataObject_String::OnDataObjectInitialized()
 	{
 		CurrentDisplayText = FText::FromString(TEXT("Invalid Option"));
 	}
+}
+
+bool UUI_ListDataObject_String::CanResetBackToDefaultValue() const
+{
+	return HasDefaultValue() && CurrentStringValue != GetDefaultValueAsString();
+}
+
+bool UUI_ListDataObject_String::TryResetBackToDefaultValue()
+{
+	if (CanResetBackToDefaultValue())
+	{
+		CurrentStringValue = GetDefaultValueAsString();
+		TrySetDisplayTextFromStringValue(CurrentStringValue);
+
+		if (DataDynamicSetter)
+		{
+			DataDynamicSetter->SetValueFromString(CurrentStringValue);
+			NotifyListDataModified(this, EOptionsListDataModifyReason::ResetToDefault);
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool UUI_ListDataObject_String::TrySetDisplayTextFromStringValue(const FString& InStringValue)

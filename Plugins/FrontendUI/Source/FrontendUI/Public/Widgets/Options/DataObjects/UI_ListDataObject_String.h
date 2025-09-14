@@ -24,6 +24,8 @@ protected:
 
 	/** UUI_ListDataObject_Base Parent */
 	virtual void OnDataObjectInitialized() override;
+	virtual bool CanResetBackToDefaultValue() const override;
+	virtual bool TryResetBackToDefaultValue() override;
 	/** end UUI_ListDataObject_Base Parent */
 
 	bool TrySetDisplayTextFromStringValue(const FString& InStringValue);
