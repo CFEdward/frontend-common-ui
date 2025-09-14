@@ -37,6 +37,8 @@ protected:
 	 */
 	virtual void OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason);
 
+	void SelectThisEntryWidget() const;
+
 private:
 
 	/*************** Bound Widgets ***************/

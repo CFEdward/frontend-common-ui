@@ -4,6 +4,7 @@
 #include "Widgets/Options/ListEntries/UIWidget_ListEntry_Base.h"
 
 #include "CommonTextBlock.h"
+#include "Components/ListView.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_Base.h"
 
 void UUIWidget_ListEntry_Base::NativeOnListEntryWidgetHovered(const bool bWasHovered)
@@ -35,4 +36,9 @@ void UUIWidget_ListEntry_Base::OnOwningListDataObjectSet(UUI_ListDataObject_Base
 
 void UUIWidget_ListEntry_Base::OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason)
 {
+}
+
+void UUIWidget_ListEntry_Base::SelectThisEntryWidget() const
+{
+	CastChecked<UListView>(GetOwningListView())->SetSelectedItem(GetListItem());
 }
