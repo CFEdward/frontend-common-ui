@@ -6,6 +6,7 @@
 #include "Widgets/UIWidget_ActivatableBase.h"
 #include "UIWidget_OptionsScreen.generated.h"
 
+class UUIWidget_OptionsDetailsView;
 class UUI_CommonListView;
 class UUI_TabListWidgetBase;
 class UUI_OptionsDataRegistry;
@@ -36,15 +37,18 @@ private:
 	UFUNCTION()
 	void OnOptionsTabSelected(FName TabId);
 
-	void OnListViewItemHovered(UObject* InHoveredItem, const bool bWasHovered);
-	void OnListViewItemSelected(UObject* InSelectedItem);
+	void OnListViewItemHovered(UObject* InHoveredItem, const bool bWasHovered) const;
+	void OnListViewItemSelected(UObject* InSelectedItem) const;
+
+	FString TryGetEntryWidgetClassName(const UObject* InOwningListItem) const;
 
 	/*************** Bound Widgets ***************/
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UUI_TabListWidgetBase> TabListWidget_OptionsTabs;
-	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UUI_CommonListView> CommonListView_OptionsList;
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UUIWidget_OptionsDetailsView> DetailsView_ListEntryInfo;
 	/*************** Bound Widgets ***************/
 
 	/** Handle the creation of data in the options screen. Direct access to this variable is forbidden */

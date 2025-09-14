@@ -9,6 +9,7 @@
 #include "UISettings/UI_GameUserSettings.h"
 #include "Widgets/Components/UI_CommonListView.h"
 #include "Widgets/Components/UI_TabListWidgetBase.h"
+#include "Widgets/Options/UIWidget_OptionsDetailsView.h"
 #include "Widgets/Options/UI_OptionsDataRegistry.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_Collection.h"
 #include "Widgets/Options/ListEntries/UIWidget_ListEntry_Base.h"
@@ -104,19 +105,47 @@ void UUIWidget_OptionsScreen::OnOptionsTabSelected(const FName TabId)
 	}
 }
 
-void UUIWidget_OptionsScreen::OnListViewItemHovered(UObject* InHoveredItem, const bool bWasHovered)
+void UUIWidget_OptionsScreen::OnListViewItemHovered(UObject* InHoveredItem, const bool bWasHovered) const
 {
-	if (!InHoveredItem) return;
+	if (!IsValid(InHoveredItem)) return;
 
 	UUIWidget_ListEntry_Base* HoveredEntryWidget = CommonListView_OptionsList->GetEntryWidgetFromItem<UUIWidget_ListEntry_Base>(InHoveredItem);
 	check(HoveredEntryWidget);
 
 	HoveredEntryWidget->NativeOnListEntryWidgetHovered(bWasHovered);
+
+	if (bWasHovered)
+	{
+		DetailsView_ListEntryInfo->UpdateDetailsViewInfo(
+			CastChecked<UUI_ListDataObject_Base>(InHoveredItem),
+			TryGetEntryWidgetClassName(InHoveredItem)
+		);
+	}
+	else
+	{
+		if (const UUI_ListDataObject_Base* SelectedItem = CommonListView_OptionsList->GetSelectedItem<UUI_ListDataObject_Base>())
+		{
+			DetailsView_ListEntryInfo->UpdateDetailsViewInfo(SelectedItem, TryGetEntryWidgetClassName(SelectedItem));
+		}
+	}
 }
 
-void UUIWidget_OptionsScreen::OnListViewItemSelected(UObject* InSelectedItem)
+void UUIWidget_OptionsScreen::OnListViewItemSelected(UObject* InSelectedItem) const
 {
-	if (!InSelectedItem) return;
+	if (!IsValid(InSelectedItem)) return;
 
-	
+	DetailsView_ListEntryInfo->UpdateDetailsViewInfo(
+		CastChecked<UUI_ListDataObject_Base>(InSelectedItem),
+		TryGetEntryWidgetClassName(InSelectedItem)
+	);
+}
+
+FString UUIWidget_OptionsScreen::TryGetEntryWidgetClassName(const UObject* InOwningListItem) const
+{
+	if (const UUserWidget* FoundEntryWidget = CommonListView_OptionsList->GetEntryWidgetFromItem(InOwningListItem))
+	{
+		return FoundEntryWidget->GetClass()->GetName();
+	}
+
+	return TEXT("Entry Widget Not Valid!");
 }
