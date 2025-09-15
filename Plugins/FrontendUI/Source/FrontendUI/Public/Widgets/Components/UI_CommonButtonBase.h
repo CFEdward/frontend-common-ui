@@ -17,6 +17,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetButtonText(FText InText) const;
+	UFUNCTION(BlueprintCallable)
+	FText GetButtonDisplayText() const;
 
 protected:
 

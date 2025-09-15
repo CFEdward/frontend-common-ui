@@ -47,3 +47,13 @@ void UUI_CommonButtonBase::SetButtonText(const FText InText) const
 		CommonTextBlock_ButtonText->SetText(bUseUpperCaseForButtonText ? InText.ToUpper() : InText);
 	}
 }
+
+FText UUI_CommonButtonBase::GetButtonDisplayText() const
+{
+	if (IsValid(CommonTextBlock_ButtonText))
+	{
+		return CommonTextBlock_ButtonText->GetText();
+	}
+
+	return FText();
+}

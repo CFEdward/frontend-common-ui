@@ -6,7 +6,9 @@
 #include "ICommonInputModule.h"
 #include "UI_DebugHelper.h"
 #include "Input/CommonUIInputTypes.h"
+#include "Subsystems/UI_Subsystem.h"
 #include "UISettings/UI_GameUserSettings.h"
+#include "Widgets/Components/UI_CommonButtonBase.h"
 #include "Widgets/Components/UI_CommonListView.h"
 #include "Widgets/Components/UI_TabListWidgetBase.h"
 #include "Widgets/Options/UIWidget_OptionsDetailsView.h"
@@ -85,7 +87,20 @@ UUI_OptionsDataRegistry* UUIWidget_OptionsScreen::GetOrCreateDataRegistry()
 
 void UUIWidget_OptionsScreen::OnResetBoundActionTriggered()
 {
-	Debug::Print(TEXT("Reset bound action triggered"));
+	if (ResettableDataArray.IsEmpty()) return;
+
+	UCommonButtonBase* SelectedTabButton = TabListWidget_OptionsTabs->GetTabButtonBaseByID(TabListWidget_OptionsTabs->GetActiveTab());
+	const FString SelectedTabButtonName = CastChecked<UUI_CommonButtonBase>(SelectedTabButton)->GetButtonDisplayText().ToString();
+	
+	UUI_Subsystem::Get(this)->PushConfirmScreenToModalStackAsync(
+		EConfirmScreenType::YesNo,
+		FText::FromString(TEXT("Reset")),
+		FText::FromString(TEXT("Are you sure you want to reset all the settings under the ") + SelectedTabButtonName + TEXT(" tab.")),
+		[](EConfirmScreenButtonType ClickedButtonType)
+			{
+				
+			}
+	);
 }
 
 void UUIWidget_OptionsScreen::OnBackBoundActionTriggered()

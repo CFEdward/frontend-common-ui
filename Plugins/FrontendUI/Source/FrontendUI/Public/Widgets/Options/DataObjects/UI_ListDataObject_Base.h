@@ -38,7 +38,7 @@ public:
 	LIST_DATA_ACCESSOR(TSoftObjectPtr<UTexture2D>, SoftDescriptionImage);
 	LIST_DATA_ACCESSOR(TObjectPtr<UUI_ListDataObject_Base>, ParentData);
 
-	void SetShouldApplySettingsImmediately(const bool bShouldApplyRightAway) { bShouldApplyChangeImmediately = bShouldApplyRightAway; }
+	FORCEINLINE void SetShouldApplySettingsImmediately(const bool bShouldApplyRightAway) { bShouldApplyChangeImmediately = bShouldApplyRightAway; }
 
 	/** The child class should override them to provide implementations for resetting the data */
 	FORCEINLINE virtual bool HasDefaultValue() const { return false; }
