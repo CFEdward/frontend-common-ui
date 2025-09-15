@@ -28,6 +28,14 @@ protected:
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
 	/** end IUserObjectListEntry Interface */
 
+	/** UUserWidget Parent */
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+	/** end UUserWidget Parent */
+
+	/** The child widget blueprint should override this function for the gamepad interaction to function properly */
+	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "Get Widget To Focus For Gamepad"))
+	UWidget* BP_GetWidgetToFocusForGamepad() const;
+	
 	/** The child class should override this function to handle the initialization needed. Super call is expected */
 	virtual void OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject);
 
