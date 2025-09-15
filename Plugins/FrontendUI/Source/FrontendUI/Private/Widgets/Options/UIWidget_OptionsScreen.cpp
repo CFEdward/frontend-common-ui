@@ -99,11 +99,40 @@ void UUIWidget_OptionsScreen::OnOptionsTabSelected(const FName TabId)
 	
 	const TArray<UUI_ListDataObject_Base*> FoundListSourceItems = GetOrCreateDataRegistry()->GetListSourceItemsBySelectedTabID(TabId);
 	CommonListView_OptionsList->SetListItems(FoundListSourceItems);
+	CommonListView_OptionsList->RequestRefresh();
 
 	if (CommonListView_OptionsList->GetNumItems() != 0)
 	{
 		CommonListView_OptionsList->NavigateToIndex(0);
 		CommonListView_OptionsList->SetSelectedIndex(0);
+	}
+
+	ResettableDataArray.Empty();
+	for (UUI_ListDataObject_Base* FoundListSourceItem : FoundListSourceItems)
+	{
+		if (!IsValid(FoundListSourceItem)) continue;
+
+		if (!FoundListSourceItem->OnListDataModified.IsBoundToObject(this))
+		{
+			FoundListSourceItem->OnListDataModified.AddUObject(this, &ThisClass::OnListViewListDataModified);
+		}
+		
+		if (FoundListSourceItem->CanResetBackToDefaultValue())
+		{
+			ResettableDataArray.AddUnique(FoundListSourceItem);
+		}
+	}
+
+	if (ResettableDataArray.IsEmpty())
+	{
+		RemoveActionBinding(ResetActionHandle);
+	}
+	else
+	{
+		if (!GetActionBindings().Contains(ResetActionHandle))
+		{
+			AddActionBinding(ResetActionHandle);
+		}
 	}
 }
 
@@ -150,4 +179,31 @@ FString UUIWidget_OptionsScreen::TryGetEntryWidgetClassName(const UObject* InOwn
 	}
 
 	return TEXT("Entry Widget Not Valid!");
+}
+
+void UUIWidget_OptionsScreen::OnListViewListDataModified(UUI_ListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifyReason)
+{
+	if (!IsValid(ModifiedData)) return;
+
+	if (ModifiedData->CanResetBackToDefaultValue())
+	{
+		ResettableDataArray.AddUnique(ModifiedData);
+
+		if (!GetActionBindings().Contains(ResetActionHandle))
+		{
+			AddActionBinding(ResetActionHandle);
+		}
+	}
+	else
+	{
+		if (ResettableDataArray.Contains(ModifiedData))
+		{
+			ResettableDataArray.Remove(ModifiedData);
+		}
+	}
+
+	if (ResettableDataArray.IsEmpty())
+	{
+		RemoveActionBinding(ResetActionHandle);
+	}
 }

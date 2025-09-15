@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UITypes/UIEnumTypes.h"
 #include "Widgets/UIWidget_ActivatableBase.h"
 #include "UIWidget_OptionsScreen.generated.h"
 
+class UUI_ListDataObject_Base;
 class UUIWidget_OptionsDetailsView;
 class UUI_CommonListView;
 class UUI_TabListWidgetBase;
@@ -42,6 +44,8 @@ private:
 
 	FString TryGetEntryWidgetClassName(const UObject* InOwningListItem) const;
 
+	void OnListViewListDataModified(UUI_ListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifyReason);
+
 	/*************** Bound Widgets ***************/
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UUI_TabListWidgetBase> TabListWidget_OptionsTabs;
@@ -59,4 +63,7 @@ private:
 	FDataTableRowHandle ResetAction;
 
 	FUIActionBindingHandle ResetActionHandle;
+
+	UPROPERTY(Transient)
+	TArray<TObjectPtr<UUI_ListDataObject_Base>> ResettableDataArray;
 };
