@@ -16,6 +16,7 @@ public:
 	void AddDynamicOption(const FString& InStringValue, const FText& InDisplayText);
 	void AdvanceToNextOption();
 	void BackToPreviousOption();
+	void OnRotatorInitiatedValueChange(const FText& InNewSelectedText);
 
 	FORCEINLINE FText GetCurrentDisplayText() const { return CurrentDisplayText; }
 	FORCEINLINE const TArray<FText>& GetAvailableOptionsTextArray() const { return AvailableOptionsTextArray; }

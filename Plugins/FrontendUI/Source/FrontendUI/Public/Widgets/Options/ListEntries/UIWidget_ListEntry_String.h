@@ -31,6 +31,8 @@ private:
 	void OnPreviousOptionButtonClicked() const;
 	void OnNextOptionButtonClicked() const;
 
+	void OnRotatorValueChanged(int32 Value, const bool bUserInitiated);
+
 	UPROPERTY(Transient)
 	TObjectPtr<UUI_ListDataObject_String> CachedOwningStringDataObject;
 	
