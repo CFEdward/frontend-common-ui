@@ -25,6 +25,11 @@ void UUIWidget_OptionsDetailsView::UpdateDetailsViewInfo(const UUI_ListDataObjec
 		CommonLazyImage_Description->SetBrushFromLazyTexture(InDataObject->GetSoftDescriptionImage());
 		CommonLazyImage_Description->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 	}
+	else
+	{
+		CommonLazyImage_Description->SetVisibility(ESlateVisibility::Collapsed);
+	}
+	
 	CommonRichText_Description->SetText(InDataObject->GetDescriptionRichText());
 	const FString DynamicDetails = FString::Printf(
 		TEXT("Data Object Class: <Bold>%s</>\n\nEntry Widget Class: <Bold>%s</>"),
