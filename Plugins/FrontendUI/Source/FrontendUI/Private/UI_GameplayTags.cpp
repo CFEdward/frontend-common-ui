@@ -20,4 +20,9 @@ namespace Frontend
 		UE_DEFINE_GAMEPLAY_TAG(StoryScreen, "Frontend.Widget.StoryScreen");
 		UE_DEFINE_GAMEPLAY_TAG(OptionsScreen, "Frontend.Widget.OptionsScreen");
 	}
+
+	namespace OptionsImages
+	{
+		UE_DEFINE_GAMEPLAY_TAG(TestImage, "Frontend.OptionsImages.TestImage");
+	}
 }

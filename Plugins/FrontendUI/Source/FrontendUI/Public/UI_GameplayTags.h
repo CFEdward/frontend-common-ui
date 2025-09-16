@@ -22,4 +22,9 @@ namespace Frontend
 		FRONTENDUI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(StoryScreen);
 		FRONTENDUI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(OptionsScreen);
 	}
+
+	namespace OptionsImages
+	{
+		FRONTENDUI_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TestImage);
+	}
 }
