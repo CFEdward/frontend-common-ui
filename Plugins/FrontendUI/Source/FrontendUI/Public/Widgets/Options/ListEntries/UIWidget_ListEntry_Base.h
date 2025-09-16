@@ -26,6 +26,7 @@ protected:
 
 	/** IUserObjectListEntry Interface */
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
+	virtual void NativeOnEntryReleased() override;
 	/** end IUserObjectListEntry Interface */
 
 	/** UUserWidget Parent */

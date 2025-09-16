@@ -22,6 +22,13 @@ void UUIWidget_ListEntry_Base::NativeOnListItemObjectSet(UObject* ListItemObject
 	OnOwningListDataObjectSet(CastChecked<UUI_ListDataObject_Base>(ListItemObject));
 }
 
+void UUIWidget_ListEntry_Base::NativeOnEntryReleased()
+{
+	IUserObjectListEntry::NativeOnEntryReleased();
+
+	NativeOnListEntryWidgetHovered(false);
+}
+
 FReply UUIWidget_ListEntry_Base::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
 {
 	const UCommonInputSubsystem* CommonInputSubsystem = GetInputSubsystem();

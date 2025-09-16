@@ -27,6 +27,7 @@ protected:
 	/** UCommonActivatableWidget Parent */
 	virtual void NativeOnActivated() override;
 	virtual void NativeOnDeactivated() override;
+	virtual UWidget* NativeGetDesiredFocusTarget() const override;
 	/** end UCommonActivatableWidget Parent */
 	
 private:
