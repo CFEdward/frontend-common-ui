@@ -14,16 +14,20 @@ class FRONTENDUI_API UUI_ListDataObject_Scalar : public UUI_ListDataObject_Value
 
 public:
 
+	static FCommonNumberFormattingOptions NoDecimal();
+	static FCommonNumberFormattingOptions WithDecimal(const int32 NumFracDigit);
+
+	float GetCurrentValue() const;
+
 	LIST_DATA_ACCESSOR(TRange<float>, DisplayValueRange);
 	LIST_DATA_ACCESSOR(TRange<float>, OutputValueRange);
 	LIST_DATA_ACCESSOR(float, SliderStepSize);
 	LIST_DATA_ACCESSOR(ECommonNumericType, DisplayNumericType);
 	LIST_DATA_ACCESSOR(FCommonNumberFormattingOptions, NumberFormattingOptions);
-
-	static FCommonNumberFormattingOptions NoDecimal();
-	static FCommonNumberFormattingOptions WithDecimal(const int32 NumFracDigit);
 	
 private:
+
+	float StringToFloat(const FString& InString) const;
 
 	TRange<float> DisplayValueRange{ TRange<float>(0.f, 1.f) };
 	TRange<float> OutputValueRange{ TRange<float>(0.f, 1.f) };
