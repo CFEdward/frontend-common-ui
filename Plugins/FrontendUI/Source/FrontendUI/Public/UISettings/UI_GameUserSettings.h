@@ -27,6 +27,7 @@ public:
 	/********** Audio Collection Tab **********/
 	UFUNCTION()
 	FORCEINLINE float GetOverallVolume() const { return OverallVolume; }
+	UFUNCTION()
 	void SetOverallVolume(const float InVolume);
 	/********** Audio Collection Tab **********/
 	

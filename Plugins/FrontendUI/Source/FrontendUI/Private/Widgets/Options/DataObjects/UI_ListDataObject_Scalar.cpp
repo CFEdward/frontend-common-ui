@@ -35,6 +35,21 @@ float UUI_ListDataObject_Scalar::GetCurrentValue() const
 	return 0.f;
 }
 
+void UUI_ListDataObject_Scalar::SetCurrentValueFromSlider(const float InNewValue)
+{
+	if (DataDynamicSetter)
+	{
+		const float ClampedValue = FMath::GetMappedRangeValueClamped(
+			DisplayValueRange,
+			OutputValueRange,
+			InNewValue
+		);
+		DataDynamicSetter->SetValueFromString(LexToString(ClampedValue));
+
+		NotifyListDataModified(this);
+	}
+}
+
 float UUI_ListDataObject_Scalar::StringToFloat(const FString& InString) const
 {
 	float OutConvertedValue = 0.f;

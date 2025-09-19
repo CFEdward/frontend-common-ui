@@ -9,7 +9,8 @@
 void UUIWidget_ListEntry_Scalar::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-	
+
+	AnalogSlider_Setting->OnValueChanged.AddUniqueDynamic(this, &ThisClass::OnSliderValueChanged);
 }
 
 void UUIWidget_ListEntry_Scalar::OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject)
@@ -34,5 +35,13 @@ void UUIWidget_ListEntry_Scalar::OnOwningListDataObjectModified(UUI_ListDataObje
 	{
 		CommonNumeric_SettingValue->SetCurrentValue(CachedOwningScalarDataObject->GetCurrentValue());
 		AnalogSlider_Setting->SetValue(CachedOwningScalarDataObject->GetCurrentValue());
+	}
+}
+
+void UUIWidget_ListEntry_Scalar::OnSliderValueChanged(const float Value)
+{
+	if (IsValid(CachedOwningScalarDataObject))
+	{
+		CachedOwningScalarDataObject->SetCurrentValueFromSlider(Value);
 	}
 }

@@ -18,7 +18,7 @@ public:
 	static FCommonNumberFormattingOptions WithDecimal(const int32 NumFracDigit);
 
 	float GetCurrentValue() const;
-
+	void SetCurrentValueFromSlider(const float InNewValue);
 	LIST_DATA_ACCESSOR(TRange<float>, DisplayValueRange);
 	LIST_DATA_ACCESSOR(TRange<float>, OutputValueRange);
 	LIST_DATA_ACCESSOR(float, SliderStepSize);

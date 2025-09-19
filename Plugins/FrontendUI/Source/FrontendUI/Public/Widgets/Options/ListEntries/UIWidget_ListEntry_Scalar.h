@@ -28,6 +28,9 @@ protected:
 
 private:
 
+	UFUNCTION()
+	void OnSliderValueChanged(const float Value);
+
 	/*************** Bound Widgets ***************/
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UCommonNumericTextBlock> CommonNumeric_SettingValue;
