@@ -22,7 +22,10 @@ public:
 	/** end UWidget Parent */
 
 protected:
-
+	
+	/** UListView Parent */
+	virtual bool OnIsSelectableOrNavigableInternal(UObject* FirstSelectedItem) override;
+	/** end UListView Parent */
 	/** UCommonListView Parent */
 	virtual UUserWidget& OnGenerateEntryWidgetInternal(UObject* Item, TSubclassOf<UUserWidget> DesiredEntryClass, const TSharedRef<STableViewBase>& OwnerTable) override;
 	/** end UCommonListView Parent */

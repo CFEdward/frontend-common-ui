@@ -6,6 +6,7 @@
 #include "Editor/WidgetCompilerLog.h"
 #include "Widgets/Options/UI_DataAsset_DataListEntryMapping.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_Base.h"
+#include "Widgets/Options/DataObjects/UI_ListDataObject_Collection.h"
 #include "Widgets/Options/ListEntries/UIWidget_ListEntry_Base.h"
 
 #if WITH_EDITOR	
@@ -23,6 +24,11 @@ void UUI_CommonListView::ValidateCompiledDefaults(class IWidgetCompilerLog& Comp
 	}
 }
 #endif
+
+bool UUI_CommonListView::OnIsSelectableOrNavigableInternal(UObject* FirstSelectedItem)
+{
+	return !FirstSelectedItem->IsA(UUI_ListDataObject_Collection::StaticClass());
+}
 
 UUserWidget& UUI_CommonListView::OnGenerateEntryWidgetInternal(UObject* Item, TSubclassOf<UUserWidget> DesiredEntryClass, const TSharedRef<STableViewBase>& OwnerTable)
 {
