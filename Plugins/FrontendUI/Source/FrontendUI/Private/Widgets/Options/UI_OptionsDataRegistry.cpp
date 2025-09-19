@@ -26,12 +26,6 @@ void UUI_OptionsDataRegistry::InitGameplayCollectionTab()
 	UUI_ListDataObject_Collection* GameplayTabCollection = NewObject<UUI_ListDataObject_Collection>();
 	GameplayTabCollection->SetDataID(FName(TEXT("GameplayTabCollection")));
 	GameplayTabCollection->SetDataDisplayName(FText::FromString(TEXT("Gameplay")));
-
-	/*
-	TSharedPtr<FUI_OptionsDataInteractionHelper> ConstructedHelper = MakeShared<FUI_OptionsDataInteractionHelper>(
-		GET_FUNCTION_NAME_STRING_CHECKED(UUI_GameUserSettings, GetCurrentGameDifficulty)
-	);
-	*/
 	
 	// Game Difficulty
 	{
@@ -121,16 +115,7 @@ TArray<UUI_ListDataObject_Base*> UUI_OptionsDataRegistry::GetListSourceItemsBySe
 	checkf(FoundTabCollection, TEXT("No valid tab found under the ID %s"), *InSelectedTabID.ToString());
 
 	TArray<UUI_ListDataObject_Base*> AllChildListItems;
-	for (UUI_ListDataObject_Base* ChildListData : FoundTabCollection->GetAllChildListData())
-	{
-		if (!ChildListData) continue;
-
-		AllChildListItems.Add(ChildListData);
-		if (ChildListData->HasAnyChildListData())
-		{
-			FindChildListDataRecursively(ChildListData, AllChildListItems);
-		}
-	}
+	FindChildListDataRecursively(FoundTabCollection, AllChildListItems);
 
 	return AllChildListItems;
 }
