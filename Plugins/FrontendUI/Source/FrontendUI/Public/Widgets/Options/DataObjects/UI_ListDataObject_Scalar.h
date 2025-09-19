@@ -19,6 +19,9 @@ public:
 	LIST_DATA_ACCESSOR(float, SliderStepSize);
 	LIST_DATA_ACCESSOR(ECommonNumericType, DisplayNumericType);
 	LIST_DATA_ACCESSOR(FCommonNumberFormattingOptions, NumberFormattingOptions);
+
+	static FCommonNumberFormattingOptions NoDecimal();
+	static FCommonNumberFormattingOptions WithDecimal(const int32 NumFracDigit);
 	
 private:
 
