@@ -86,7 +86,9 @@ void UUI_OptionsDataRegistry::InitAudioCollectionTab()
 			OverallVolume->SetDefaultValueFromString(LexToString(1.f));
 			OverallVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
 			OverallVolume->SetNumberFormattingOptions(UUI_ListDataObject_Scalar::NoDecimal());
-			// TODO: Set data dynamic getter and setter for the data object
+			OverallVolume->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetOverallVolume));
+			OverallVolume->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetOverallVolume));
+			OverallVolume->SetShouldApplySettingsImmediately(true);
 
 			VolumeCategoryCollection->AddChildListData(OverallVolume);
 		}
