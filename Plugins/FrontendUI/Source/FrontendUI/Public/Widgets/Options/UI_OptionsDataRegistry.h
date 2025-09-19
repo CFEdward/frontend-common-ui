@@ -25,6 +25,8 @@ public:
 
 private:
 
+	void FindChildListDataRecursively(const UUI_ListDataObject_Base* InParentData, TArray<UUI_ListDataObject_Base*>& OutFoundChildListData) const;
+	
 	void InitGameplayCollectionTab();
 	void InitAudioCollectionTab();
 	void InitVideoCollectionTab();

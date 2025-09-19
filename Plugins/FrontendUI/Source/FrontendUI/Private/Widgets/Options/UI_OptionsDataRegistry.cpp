@@ -120,5 +120,33 @@ TArray<UUI_ListDataObject_Base*> UUI_OptionsDataRegistry::GetListSourceItemsBySe
 	)->Get();
 	checkf(FoundTabCollection, TEXT("No valid tab found under the ID %s"), *InSelectedTabID.ToString());
 
-	return FoundTabCollection->GetAllChildListData();
+	TArray<UUI_ListDataObject_Base*> AllChildListItems;
+	for (UUI_ListDataObject_Base* ChildListData : FoundTabCollection->GetAllChildListData())
+	{
+		if (!ChildListData) continue;
+
+		AllChildListItems.Add(ChildListData);
+		if (ChildListData->HasAnyChildListData())
+		{
+			FindChildListDataRecursively(ChildListData, AllChildListItems);
+		}
+	}
+
+	return AllChildListItems;
+}
+
+void UUI_OptionsDataRegistry::FindChildListDataRecursively(const UUI_ListDataObject_Base* InParentData, TArray<UUI_ListDataObject_Base*>& OutFoundChildListData) const
+{
+	if (!IsValid(InParentData) || !InParentData->HasAnyChildListData()) return;
+
+	for (UUI_ListDataObject_Base* SubChildListData : InParentData->GetAllChildListData())
+	{
+		if (!SubChildListData) continue;
+
+		OutFoundChildListData.Add(SubChildListData);
+		if (SubChildListData->HasAnyChildListData())
+		{
+			FindChildListDataRecursively(SubChildListData, OutFoundChildListData);
+		}
+	}
 }
