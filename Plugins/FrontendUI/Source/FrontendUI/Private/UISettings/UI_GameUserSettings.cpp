@@ -3,11 +3,6 @@
 
 #include "UISettings/UI_GameUserSettings.h"
 
-UUI_GameUserSettings::UUI_GameUserSettings()
-	: OverallVolume(1.f), MusicVolume(1.f)
-{
-}
-
 UUI_GameUserSettings* UUI_GameUserSettings::Get()
 {
 	if (GEngine)
@@ -28,6 +23,13 @@ void UUI_GameUserSettings::SetOverallVolume(const float InVolume)
 void UUI_GameUserSettings::SetMusicVolume(const float InVolume)
 {
 	MusicVolume = InVolume;
+
+	// ...
+}
+
+void UUI_GameUserSettings::SetSFXVolume(const float InVolume)
+{
+	SFXVolume = InVolume;
 
 	// ...
 }

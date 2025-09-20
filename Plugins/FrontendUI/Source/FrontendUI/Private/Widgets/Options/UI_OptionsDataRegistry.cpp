@@ -88,7 +88,7 @@ void UUI_OptionsDataRegistry::InitAudioCollectionTab()
 			OverallVolume->SetNumberFormattingOptions(UUI_ListDataObject_Scalar::NoDecimal());
 			OverallVolume->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetOverallVolume));
 			OverallVolume->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetOverallVolume));
-			OverallVolume->SetShouldApplySettingsImmediately(false);
+			OverallVolume->SetShouldApplySettingsImmediately(false);	// false to avoid lag spikes when moving the slider fast
 
 			VolumeCategoryCollection->AddChildListData(OverallVolume);
 		}
@@ -107,20 +107,28 @@ void UUI_OptionsDataRegistry::InitAudioCollectionTab()
 			MusicVolume->SetNumberFormattingOptions(UUI_ListDataObject_Scalar::NoDecimal());
 			MusicVolume->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetMusicVolume));
 			MusicVolume->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetMusicVolume));
-			MusicVolume->SetShouldApplySettingsImmediately(false);
+			MusicVolume->SetShouldApplySettingsImmediately(false);	// false to avoid lag spikes when moving the slider fast
 
 			VolumeCategoryCollection->AddChildListData(MusicVolume);
 		}
 
-		// Test Item
+		// SFX Volume
 		{
-			UUI_ListDataObject_String* TestItem = NewObject<UUI_ListDataObject_String>();
-			TestItem->SetDataID(FName(TEXT("TestItem")));
-			TestItem->SetDataDisplayName(FText::FromString(TEXT("Test Image")));
-			TestItem->SetSoftDescriptionImage(UUI_BlueprintLibrary::GetOptionsSoftImageByTag(Frontend::OptionsImages::TestImage));
-			TestItem->SetDescriptionRichText(FText::FromString(TEXT("The image to display can be specified in the project settings. It can be anything the developer assigns there.")));
+			UUI_ListDataObject_Scalar* SFXVolume = NewObject<UUI_ListDataObject_Scalar>();
+			SFXVolume->SetDataID(FName(TEXT("SFXVolume")));
+			SFXVolume->SetDataDisplayName(FText::FromString(TEXT("Sound Effects Volume")));
+			SFXVolume->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Sound Effects Volume.")));
+			SFXVolume->SetDisplayValueRange(TRange<float>(0.f, 1.f));
+			SFXVolume->SetOutputValueRange(TRange<float>(0.f, 2.f));
+			SFXVolume->SetSliderStepSize(0.01f);
+			SFXVolume->SetDefaultValueFromString(LexToString(1.f));
+			SFXVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
+			SFXVolume->SetNumberFormattingOptions(UUI_ListDataObject_Scalar::NoDecimal());
+			SFXVolume->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetSFXVolume));
+			SFXVolume->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetSFXVolume));
+			SFXVolume->SetShouldApplySettingsImmediately(false);	// false to avoid lag spikes when moving the slider fast
 
-			VolumeCategoryCollection->AddChildListData(TestItem);
+			VolumeCategoryCollection->AddChildListData(SFXVolume);
 		}
 	}
 	

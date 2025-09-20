@@ -13,8 +13,6 @@ class FRONTENDUI_API UUI_GameUserSettings : public UGameUserSettings
 
 public:
 
-	UUI_GameUserSettings();
-
 	static UUI_GameUserSettings* Get();
 
 	/********** Gameplay Collection Tab **********/
@@ -34,6 +32,11 @@ public:
 	FORCEINLINE float GetMusicVolume() const { return MusicVolume; }
 	UFUNCTION()
 	void SetMusicVolume(const float InVolume);
+
+	UFUNCTION()
+	FORCEINLINE float GetSFXVolume() const { return SFXVolume; }
+	UFUNCTION()
+	void SetSFXVolume(const float InVolume);
 	/********** Audio Collection Tab **********/
 	
 private:
@@ -45,9 +48,10 @@ private:
 
 	/********** Audio Collection Tab **********/
 	UPROPERTY(Config)
-	float OverallVolume;
-	
+	float OverallVolume{ 1.f };
 	UPROPERTY(Config)
-	float MusicVolume;
+	float MusicVolume{ 1.f };
+	UPROPERTY(Config)
+	float SFXVolume{ 1.f };
 	/********** Audio Collection Tab **********/
 };
