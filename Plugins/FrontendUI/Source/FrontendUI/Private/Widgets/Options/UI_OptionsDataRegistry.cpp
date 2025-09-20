@@ -93,6 +93,25 @@ void UUI_OptionsDataRegistry::InitAudioCollectionTab()
 			VolumeCategoryCollection->AddChildListData(OverallVolume);
 		}
 
+		// Music Volume
+		{
+			UUI_ListDataObject_Scalar* MusicVolume = NewObject<UUI_ListDataObject_Scalar>();
+			MusicVolume->SetDataID(FName(TEXT("MusicVolume")));
+			MusicVolume->SetDataDisplayName(FText::FromString(TEXT("Music Volume")));
+			MusicVolume->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Music Volume.")));
+			MusicVolume->SetDisplayValueRange(TRange<float>(0.f, 1.f));
+			MusicVolume->SetOutputValueRange(TRange<float>(0.f, 2.f));
+			MusicVolume->SetSliderStepSize(0.01f);
+			MusicVolume->SetDefaultValueFromString(LexToString(1.f));
+			MusicVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
+			MusicVolume->SetNumberFormattingOptions(UUI_ListDataObject_Scalar::NoDecimal());
+			MusicVolume->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetMusicVolume));
+			MusicVolume->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetMusicVolume));
+			MusicVolume->SetShouldApplySettingsImmediately(false);
+
+			VolumeCategoryCollection->AddChildListData(MusicVolume);
+		}
+
 		// Test Item
 		{
 			UUI_ListDataObject_String* TestItem = NewObject<UUI_ListDataObject_String>();

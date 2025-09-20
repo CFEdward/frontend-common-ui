@@ -4,7 +4,7 @@
 #include "UISettings/UI_GameUserSettings.h"
 
 UUI_GameUserSettings::UUI_GameUserSettings()
-	: OverallVolume(1.f)
+	: OverallVolume(1.f), MusicVolume(1.f)
 {
 }
 
@@ -23,4 +23,11 @@ void UUI_GameUserSettings::SetOverallVolume(const float InVolume)
 	OverallVolume = InVolume;
 
 	// The actual logic for controlling the volume goes here
+}
+
+void UUI_GameUserSettings::SetMusicVolume(const float InVolume)
+{
+	MusicVolume = InVolume;
+
+	// ...
 }
