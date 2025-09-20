@@ -134,3 +134,50 @@ bool UUI_ListDataObject_String::TrySetDisplayTextFromStringValue(const FString& 
 
 	return false;
 }
+
+/************ UUI_ListDataObject_StringBool ************/
+
+void UUI_ListDataObject_StringBool::OnDataObjectInitialized()
+{
+	TryInitBoolValues();
+	
+	Super::OnDataObjectInitialized();
+}
+
+void UUI_ListDataObject_StringBool::TryInitBoolValues()
+{
+	if (!AvailableOptionsStringArray.Contains(TrueString))
+	{
+		AddDynamicOption(TrueString, FText::FromString(TEXT("ON")));
+	}
+	if (!AvailableOptionsStringArray.Contains(FalseString))
+	{
+		AddDynamicOption(FalseString, FText::FromString(TEXT("OFF")));
+	}
+}
+
+void UUI_ListDataObject_StringBool::OverrideTrueDisplayText(const FText& InNewTrueDisplayText)
+{
+	if (!AvailableOptionsStringArray.Contains(TrueString))
+	{
+		AddDynamicOption(TrueString, InNewTrueDisplayText);
+	}
+}
+
+void UUI_ListDataObject_StringBool::OverrideFalseDisplayText(const FText& InNewFalseDisplayText)
+{
+	if (!AvailableOptionsStringArray.Contains(FalseString))
+	{
+		AddDynamicOption(FalseString, InNewFalseDisplayText);
+	}
+}
+
+void UUI_ListDataObject_StringBool::SetTrueAsDefaultValue()
+{
+	SetDefaultValueFromString(TrueString);
+}
+
+void UUI_ListDataObject_StringBool::SetFalseAsDefaultValue()
+{
+	SetDefaultValueFromString(FalseString);
+}

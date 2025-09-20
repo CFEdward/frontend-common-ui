@@ -36,3 +36,30 @@ protected:
 	TArray<FString> AvailableOptionsStringArray;
 	TArray<FText> AvailableOptionsTextArray;
 };
+
+UCLASS()
+class FRONTENDUI_API UUI_ListDataObject_StringBool : public UUI_ListDataObject_String
+{
+	GENERATED_BODY()
+
+public:
+
+	void OverrideTrueDisplayText(const FText& InNewTrueDisplayText);
+	void OverrideFalseDisplayText(const FText& InNewFalseDisplayText);
+
+	void SetTrueAsDefaultValue();
+	void SetFalseAsDefaultValue();
+
+protected:
+
+	/** UUI_ListDataObject_String Parent */
+	virtual void OnDataObjectInitialized() override;
+	/** end UUI_ListDataObject_String Parent */
+	
+private:
+
+	void TryInitBoolValues();
+
+	const FString TrueString{ TEXT("true") };
+	const FString FalseString{ TEXT("false") };
+};
