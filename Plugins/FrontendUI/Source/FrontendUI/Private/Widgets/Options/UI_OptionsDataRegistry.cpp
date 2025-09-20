@@ -131,6 +131,30 @@ void UUI_OptionsDataRegistry::InitAudioCollectionTab()
 			VolumeCategoryCollection->AddChildListData(SFXVolume);
 		}
 	}
+
+	// Sound Category
+	{
+		UUI_ListDataObject_Collection* SoundCategoryCollection = NewObject<UUI_ListDataObject_Collection>();
+		SoundCategoryCollection->SetDataID(FName(TEXT("SoundCategoryCollection")));
+		SoundCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Sound")));
+
+		AudioTabCollection->AddChildListData(SoundCategoryCollection);
+
+		// Background Audio
+		{
+			UUI_ListDataObject_StringBool* BackgroundAudio = NewObject<UUI_ListDataObject_StringBool>();
+			BackgroundAudio->SetDataID(FName(TEXT("BackgroundAudio")));
+			BackgroundAudio->SetDataDisplayName(FText::FromString(TEXT("Mute Background Audio")));
+			BackgroundAudio->OverrideTrueDisplayText(FText::FromString(TEXT("Disabled")));
+			BackgroundAudio->OverrideFalseDisplayText(FText::FromString(TEXT("Enabled")));
+			BackgroundAudio->SetFalseAsDefaultValue();
+			BackgroundAudio->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetBackgroundAudio));
+			BackgroundAudio->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetBackgroundAudio));
+			BackgroundAudio->SetShouldApplySettingsImmediately(true);
+
+			SoundCategoryCollection->AddChildListData(BackgroundAudio);
+		}
+	}
 	
 	RegisteredOptionsTabCollections.Add(AudioTabCollection);
 }

@@ -33,3 +33,10 @@ void UUI_GameUserSettings::SetSFXVolume(const float InVolume)
 
 	// ...
 }
+
+void UUI_GameUserSettings::SetBackgroundAudio(const bool bInBackgroundAudio)
+{
+	bBackgroundAudio = bInBackgroundAudio;
+
+	// ...
+}

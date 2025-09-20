@@ -37,6 +37,11 @@ public:
 	FORCEINLINE float GetSFXVolume() const { return SFXVolume; }
 	UFUNCTION()
 	void SetSFXVolume(const float InVolume);
+
+	UFUNCTION()
+	FORCEINLINE bool GetBackgroundAudio() const { return bBackgroundAudio; }
+	UFUNCTION()
+	void SetBackgroundAudio(const bool bInBackgroundAudio);
 	/********** Audio Collection Tab **********/
 	
 private:
@@ -53,5 +58,8 @@ private:
 	float MusicVolume{ 1.f };
 	UPROPERTY(Config)
 	float SFXVolume{ 1.f };
+
+	UPROPERTY(Config)
+	bool bBackgroundAudio{ false };
 	/********** Audio Collection Tab **********/
 };
