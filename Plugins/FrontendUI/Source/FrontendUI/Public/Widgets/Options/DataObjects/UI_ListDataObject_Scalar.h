@@ -24,6 +24,13 @@ public:
 	LIST_DATA_ACCESSOR(float, SliderStepSize);
 	LIST_DATA_ACCESSOR(ECommonNumericType, DisplayNumericType);
 	LIST_DATA_ACCESSOR(FCommonNumberFormattingOptions, NumberFormattingOptions);
+
+protected:
+
+	/** UUI_ListDataObject_Base Parent */
+	virtual bool CanResetBackToDefaultValue() const override;
+	virtual bool TryResetBackToDefaultValue() override;
+	/** end UUI_ListDataObject_Base Parent */
 	
 private:
 

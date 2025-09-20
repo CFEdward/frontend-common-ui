@@ -50,6 +50,35 @@ void UUI_ListDataObject_Scalar::SetCurrentValueFromSlider(const float InNewValue
 	}
 }
 
+bool UUI_ListDataObject_Scalar::CanResetBackToDefaultValue() const
+{
+	if (HasDefaultValue() && DataDynamicGetter)
+	{
+		const float DefaultValue = StringToFloat(GetDefaultValueAsString());
+		const float CurrentValue = StringToFloat(DataDynamicGetter->GetValueAsString());
+
+		return !FMath::IsNearlyEqual(DefaultValue, CurrentValue, 0.01f);
+	}
+	
+	return false;
+}
+
+bool UUI_ListDataObject_Scalar::TryResetBackToDefaultValue()
+{
+	if (CanResetBackToDefaultValue())
+	{
+		if (DataDynamicSetter)
+		{
+			DataDynamicSetter->SetValueFromString(GetDefaultValueAsString());
+			NotifyListDataModified(this, EOptionsListDataModifyReason::ResetToDefault);
+
+			return true;
+		}
+	}
+	
+	return false;
+}
+
 float UUI_ListDataObject_Scalar::StringToFloat(const FString& InString) const
 {
 	float OutConvertedValue = 0.f;
