@@ -42,6 +42,11 @@ public:
 	FORCEINLINE bool GetBackgroundAudio() const { return bBackgroundAudio; }
 	UFUNCTION()
 	void SetBackgroundAudio(const bool bInBackgroundAudio);
+
+	UFUNCTION()
+	FORCEINLINE bool GetHDRAudio() const { return bHDRAudio; }
+	UFUNCTION()
+	void SetHDRAudio(const bool bInHDRAudio);
 	/********** Audio Collection Tab **********/
 	
 private:
@@ -61,5 +66,7 @@ private:
 
 	UPROPERTY(Config)
 	bool bBackgroundAudio{ false };
+	UPROPERTY(Config)
+	bool bHDRAudio{ false };
 	/********** Audio Collection Tab **********/
 };

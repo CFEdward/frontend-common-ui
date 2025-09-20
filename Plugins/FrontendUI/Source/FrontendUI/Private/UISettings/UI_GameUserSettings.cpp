@@ -40,3 +40,10 @@ void UUI_GameUserSettings::SetBackgroundAudio(const bool bInBackgroundAudio)
 
 	// ...
 }
+
+void UUI_GameUserSettings::SetHDRAudio(const bool bInHDRAudio)
+{
+	bHDRAudio = bInHDRAudio;
+
+	// ...
+}
