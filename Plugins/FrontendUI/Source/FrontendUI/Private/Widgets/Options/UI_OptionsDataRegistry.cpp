@@ -88,7 +88,7 @@ void UUI_OptionsDataRegistry::InitAudioCollectionTab()
 			OverallVolume->SetNumberFormattingOptions(UUI_ListDataObject_Scalar::NoDecimal());
 			OverallVolume->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetOverallVolume));
 			OverallVolume->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetOverallVolume));
-			OverallVolume->SetShouldApplySettingsImmediately(true);
+			OverallVolume->SetShouldApplySettingsImmediately(false);
 
 			VolumeCategoryCollection->AddChildListData(OverallVolume);
 		}

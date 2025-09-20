@@ -30,6 +30,8 @@ private:
 
 	UFUNCTION()
 	void OnSliderValueChanged(const float Value);
+	UFUNCTION()
+	void OnSliderMouseEnd();
 
 	/*************** Bound Widgets ***************/
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))

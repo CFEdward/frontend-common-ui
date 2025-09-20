@@ -4,6 +4,7 @@
 #include "Widgets/Options/ListEntries/UIWidget_ListEntry_Scalar.h"
 
 #include "AnalogSlider.h"
+#include "UISettings/UI_GameUserSettings.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_Scalar.h"
 
 void UUIWidget_ListEntry_Scalar::NativeOnInitialized()
@@ -11,6 +12,7 @@ void UUIWidget_ListEntry_Scalar::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	AnalogSlider_Setting->OnValueChanged.AddUniqueDynamic(this, &ThisClass::OnSliderValueChanged);
+	AnalogSlider_Setting->OnMouseCaptureEnd.AddUniqueDynamic(this, &ThisClass::OnSliderMouseEnd);
 }
 
 void UUIWidget_ListEntry_Scalar::OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject)
@@ -44,4 +46,9 @@ void UUIWidget_ListEntry_Scalar::OnSliderValueChanged(const float Value)
 	{
 		CachedOwningScalarDataObject->SetCurrentValueFromSlider(Value);
 	}
+}
+
+void UUIWidget_ListEntry_Scalar::OnSliderMouseEnd()
+{
+	UUI_GameUserSettings::Get()->ApplySettings(true);
 }
