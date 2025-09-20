@@ -12,7 +12,8 @@ void UUIWidget_ListEntry_Scalar::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	AnalogSlider_Setting->OnValueChanged.AddUniqueDynamic(this, &ThisClass::OnSliderValueChanged);
-	AnalogSlider_Setting->OnMouseCaptureEnd.AddUniqueDynamic(this, &ThisClass::OnSliderMouseEnd);
+	AnalogSlider_Setting->OnMouseCaptureBegin.AddUniqueDynamic(this, &ThisClass::OnSliderMouseCaptureBegin);
+	AnalogSlider_Setting->OnMouseCaptureEnd.AddUniqueDynamic(this, &ThisClass::OnSliderMouseCaptureEnd);
 }
 
 void UUIWidget_ListEntry_Scalar::OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject)
@@ -48,7 +49,12 @@ void UUIWidget_ListEntry_Scalar::OnSliderValueChanged(const float Value)
 	}
 }
 
-void UUIWidget_ListEntry_Scalar::OnSliderMouseEnd()
+void UUIWidget_ListEntry_Scalar::OnSliderMouseCaptureBegin()
+{
+	SelectThisEntryWidget();
+}
+
+void UUIWidget_ListEntry_Scalar::OnSliderMouseCaptureEnd()
 {
 	UUI_GameUserSettings::Get()->ApplySettings(true);
 }
