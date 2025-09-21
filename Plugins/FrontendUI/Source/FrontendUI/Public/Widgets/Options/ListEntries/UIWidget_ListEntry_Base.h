@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "CommonUserWidget.h"
 #include "Blueprint/IUserObjectListEntry.h"
-#include "UITypes/UIEnumTypes.h"
+#include "UITypes/UI_EnumTypes.h"
 #include "UIWidget_ListEntry_Base.generated.h"
 
 class UUI_ListDataObject_Base;

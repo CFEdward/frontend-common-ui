@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "UITypes/UIEnumTypes.h"
+#include "UITypes/UI_EnumTypes.h"
 #include "UI_Subsystem.generated.h"
 
 class UUI_CommonButtonBase;

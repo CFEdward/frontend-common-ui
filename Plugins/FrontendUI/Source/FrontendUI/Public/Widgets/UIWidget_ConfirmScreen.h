@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UIWidget_ActivatableBase.h"
-#include "UITypes/UIEnumTypes.h"
+#include "UITypes/UI_EnumTypes.h"
 #include "UIWidget_ConfirmScreen.generated.h"
 
 class UDynamicEntryBox;

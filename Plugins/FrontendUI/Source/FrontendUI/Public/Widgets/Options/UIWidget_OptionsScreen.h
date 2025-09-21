@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UITypes/UIEnumTypes.h"
+#include "UITypes/UI_EnumTypes.h"
 #include "Widgets/UIWidget_ActivatableBase.h"
 #include "UIWidget_OptionsScreen.generated.h"
 

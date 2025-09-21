@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UITypes/UIEnumTypes.h"
+#include "UITypes/UI_EnumTypes.h"
 #include "UObject/Object.h"
 #include "UI_ListDataObject_Base.generated.h"
 
