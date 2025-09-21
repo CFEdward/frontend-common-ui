@@ -181,6 +181,8 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 	VideoTabCollection->SetDataID(FName(TEXT("VideoTabCollection")));
 	VideoTabCollection->SetDataDisplayName(FText::FromString(TEXT("Video")));
 
+	UUI_ListDataObject_StringEnum* CreatedWindowMode = nullptr;
+
 	// Display Category
 	{
 		UUI_ListDataObject_Collection* DisplayCategoryCollection = NewObject<UUI_ListDataObject_Collection>();
@@ -215,6 +217,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 
 			WindowMode->AddEditCondition(PackagedBuildOnlyCondition);
 			VideoTabCollection->AddChildListData(WindowMode);
+			CreatedWindowMode = WindowMode;
 		}
 
 		// Screen Resolution
@@ -228,6 +231,18 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			ScreenResolution->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetScreenResolution));
 			ScreenResolution->SetShouldApplySettingsImmediately(true);
 
+			FOptionsDataEditConditionDescriptor WindowModeEditCondition;
+			WindowModeEditCondition.SetEditConditionFunc([CreatedWindowMode]()->bool
+				{
+					const bool bIsBorderlessWindow = CreatedWindowMode->GetCurrentValueAsEnum<EWindowMode::Type>() == EWindowMode::WindowedFullscreen;
+
+					return !bIsBorderlessWindow;
+				}
+			);
+			WindowModeEditCondition.SetDisabledRichReason(TEXT("\n\n<Disabled>Screen Resolution is not adjustable when in Borderless Window mode.</>"));
+			WindowModeEditCondition.SetDisabledForcedStringValue(ScreenResolution->GetMaximumAllowedResolution());
+
+			ScreenResolution->AddEditCondition(WindowModeEditCondition);
 			ScreenResolution->AddEditCondition(PackagedBuildOnlyCondition);
 			VideoTabCollection->AddChildListData(ScreenResolution);
 		}

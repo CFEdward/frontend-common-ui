@@ -15,6 +15,8 @@ public:
 
 	void InitResolutionValues();
 
+	FORCEINLINE FString GetMaximumAllowedResolution() const { return MaximumAllowedResolution; }
+
 protected:
 
 	/** UUI_ListDataObject_String Parent */
