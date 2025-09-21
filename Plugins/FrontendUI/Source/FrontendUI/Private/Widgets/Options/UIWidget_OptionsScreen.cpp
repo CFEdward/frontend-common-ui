@@ -207,7 +207,7 @@ void UUIWidget_OptionsScreen::OnListViewItemHovered(UObject* InHoveredItem, cons
 	}
 	else
 	{
-		if (const UUI_ListDataObject_Base* SelectedItem = CommonListView_OptionsList->GetSelectedItem<UUI_ListDataObject_Base>())
+		if (UUI_ListDataObject_Base* SelectedItem = CommonListView_OptionsList->GetSelectedItem<UUI_ListDataObject_Base>())
 		{
 			DetailsView_ListEntryInfo->UpdateDetailsViewInfo(SelectedItem, TryGetEntryWidgetClassName(SelectedItem));
 		}

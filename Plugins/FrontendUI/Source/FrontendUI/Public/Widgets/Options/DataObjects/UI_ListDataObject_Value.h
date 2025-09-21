@@ -15,8 +15,8 @@ class FRONTENDUI_API UUI_ListDataObject_Value : public UUI_ListDataObject_Base
 
 public:
 
-	FORCEINLINE void SetDataDynamicGetter(const TSharedPtr<FUI_OptionsDataInteractionHelper>& InDynamicGetter);
-	FORCEINLINE void SetDataDynamicSetter(const TSharedPtr<FUI_OptionsDataInteractionHelper>& InDynamicSetter);
+	void SetDataDynamicGetter(const TSharedPtr<FUI_OptionsDataInteractionHelper>& InDynamicGetter);
+	void SetDataDynamicSetter(const TSharedPtr<FUI_OptionsDataInteractionHelper>& InDynamicSetter);
 
 	FORCEINLINE void SetDefaultValueFromString(const FString& InDefaultValue) { DefaultStringValue = InDefaultValue; }
 
