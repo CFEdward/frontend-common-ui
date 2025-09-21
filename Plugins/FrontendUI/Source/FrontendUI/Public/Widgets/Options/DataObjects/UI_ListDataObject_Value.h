@@ -21,7 +21,7 @@ public:
 	FORCEINLINE void SetDefaultValueFromString(const FString& InDefaultValue) { DefaultStringValue = InDefaultValue; }
 
 	/** UUI_ListDataObject_Base Parent */
-	FORCEINLINE virtual bool HasDefaultValue() const override { return DefaultStringValue.IsSet(); }
+	virtual bool HasDefaultValue() const override { return DefaultStringValue.IsSet(); }
 	/** end UUI_ListDataObject_Base Parent */
 	
 protected:
