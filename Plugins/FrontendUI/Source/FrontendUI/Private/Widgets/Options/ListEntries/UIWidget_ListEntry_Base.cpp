@@ -55,10 +55,20 @@ void UUIWidget_ListEntry_Base::OnOwningListDataObjectSet(UUI_ListDataObject_Base
 	{
 		InOwningListDataObject->OnListDataModified.AddUObject(this, &ThisClass::OnOwningListDataObjectModified);
 	}
+
+	OnToggleEditableState(InOwningListDataObject->IsDataCurrentlyEditable());
 }
 
 void UUIWidget_ListEntry_Base::OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason)
 {
+}
+
+void UUIWidget_ListEntry_Base::OnToggleEditableState(const bool bIsEditable)
+{
+	if (CommonText_SettingDisplayName)
+	{
+		CommonText_SettingDisplayName->SetIsEnabled(bIsEditable);
+	}
 }
 
 void UUIWidget_ListEntry_Base::SelectThisEntryWidget() const

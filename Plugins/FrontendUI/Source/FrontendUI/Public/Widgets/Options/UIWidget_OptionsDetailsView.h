@@ -18,7 +18,7 @@ class FRONTENDUI_API UUIWidget_OptionsDetailsView : public UUserWidget
 
 public:
 
-	void UpdateDetailsViewInfo(const UUI_ListDataObject_Base* InDataObject, const FString& InEntryWidgetClassName = FString()) const;
+	void UpdateDetailsViewInfo(UUI_ListDataObject_Base* InDataObject, const FString& InEntryWidgetClassName = FString()) const;
 	void ClearDetailsViewInfo() const;
 
 protected:

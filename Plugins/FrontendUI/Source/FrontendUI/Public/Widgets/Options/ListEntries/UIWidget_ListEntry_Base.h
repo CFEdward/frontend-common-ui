@@ -46,6 +46,9 @@ protected:
 	 */
 	virtual void OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason);
 
+	/** The child class should override this to change the Editable State of the Widgets it owns. Super call is expected */
+	virtual void OnToggleEditableState(bool bIsEditable);
+
 	void SelectThisEntryWidget() const;
 
 private:

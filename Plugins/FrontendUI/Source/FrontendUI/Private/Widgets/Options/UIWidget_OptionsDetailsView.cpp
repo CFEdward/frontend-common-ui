@@ -15,7 +15,7 @@ void UUIWidget_OptionsDetailsView::NativeOnInitialized()
 	ClearDetailsViewInfo();
 }
 
-void UUIWidget_OptionsDetailsView::UpdateDetailsViewInfo(const UUI_ListDataObject_Base* InDataObject, const FString& InEntryWidgetClassName) const
+void UUIWidget_OptionsDetailsView::UpdateDetailsViewInfo(UUI_ListDataObject_Base* InDataObject, const FString& InEntryWidgetClassName) const
 {
 	if (!InDataObject) return;
 
@@ -37,7 +37,7 @@ void UUIWidget_OptionsDetailsView::UpdateDetailsViewInfo(const UUI_ListDataObjec
 		*InEntryWidgetClassName
 	);
 	CommonRichText_DynamicDetails->SetText(FText::FromString(DynamicDetails));
-	CommonRichText_DisabledReason->SetText(InDataObject->GetDisabledRichText());
+	CommonRichText_DisabledReason->SetText(InDataObject->IsDataCurrentlyEditable() ? FText::GetEmpty() : InDataObject->GetDisabledRichText());
 }
 
 void UUIWidget_OptionsDetailsView::ClearDetailsViewInfo() const

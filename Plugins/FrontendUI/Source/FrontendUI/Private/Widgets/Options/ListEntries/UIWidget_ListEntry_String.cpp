@@ -41,6 +41,15 @@ void UUIWidget_ListEntry_String::OnOwningListDataObjectModified(UUI_ListDataObje
 	}
 }
 
+void UUIWidget_ListEntry_String::OnToggleEditableState(const bool bIsEditable)
+{
+	Super::OnToggleEditableState(bIsEditable);
+
+	CommonButton_PreviousOption->SetIsEnabled(bIsEditable);
+	CommonRotator_AvailableOptions->SetIsEnabled(bIsEditable);
+	CommonButton_NextOption->SetIsEnabled(bIsEditable);
+}
+
 void UUIWidget_ListEntry_String::OnPreviousOptionButtonClicked() const
 {
 	if (CachedOwningStringDataObject)
