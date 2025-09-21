@@ -20,4 +20,11 @@ protected:
 	/** UUI_ListDataObject_String Parent */
 	virtual void OnDataObjectInitialized() override;
 	/** end UUI_ListDataObject_String Parent */
+
+private:
+
+	FString ResToValueString(const FIntPoint& InResolution) const;
+	FText ResToDisplayText(const FIntPoint& InResolution) const;
+
+	FString MaximumAllowedResolution;
 };
