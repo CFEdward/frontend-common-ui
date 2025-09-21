@@ -14,4 +14,10 @@ class FRONTENDUI_API UUI_ListDataObject_StringResolution : public UUI_ListDataOb
 public:
 
 	void InitResolutionValues();
+
+protected:
+
+	/** UUI_ListDataObject_String Parent */
+	virtual void OnDataObjectInitialized() override;
+	/** end UUI_ListDataObject_String Parent */
 };
