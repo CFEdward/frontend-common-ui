@@ -202,6 +202,16 @@ void UUI_ListDataObject_StringBool::SetFalseAsDefaultValue()
 
 /************ UUI_ListDataObject_StringInteger ************/
 
+void UUI_ListDataObject_StringInteger::OnDataObjectInitialized()
+{
+	Super::OnDataObjectInitialized();
+
+	if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
+	{
+		CurrentDisplayText = FText::FromString(TEXT("Custom"));
+	}
+}
+
 void UUI_ListDataObject_StringInteger::AddIntegerOption(const int32 InIntegerValue, const FText& InDisplayText)
 {
 	AddDynamicOption(LexToString(InIntegerValue), InDisplayText);
@@ -222,14 +232,4 @@ void UUI_ListDataObject_StringInteger::OnEditDependencyDataModified(UUI_ListData
 	}
 
 	Super::OnEditDependencyDataModified(ModifiedDependencyData, ModifyReason);
-}
-
-void UUI_ListDataObject_StringInteger::OnDataObjectInitialized()
-{
-	Super::OnDataObjectInitialized();
-
-	if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
-	{
-		CurrentDisplayText = FText::FromString(TEXT("Custom"));
-	}
 }

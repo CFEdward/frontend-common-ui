@@ -41,6 +41,13 @@ void UUIWidget_ListEntry_Scalar::OnOwningListDataObjectModified(UUI_ListDataObje
 	}
 }
 
+void UUIWidget_ListEntry_Scalar::OnToggleEditableState(bool bIsEditable)
+{
+	Super::OnToggleEditableState(bIsEditable);
+
+	AnalogSlider_Setting->SetIsEnabled(bIsEditable);
+}
+
 void UUIWidget_ListEntry_Scalar::OnSliderValueChanged(const float Value)
 {
 	if (IsValid(CachedOwningScalarDataObject))

@@ -30,6 +30,9 @@ protected:
 	/** UUI_ListDataObject_Base Parent */
 	virtual bool CanResetBackToDefaultValue() const override;
 	virtual bool TryResetBackToDefaultValue() override;
+	virtual void OnEditDependencyDataModified(UUI_ListDataObject_Base* ModifiedDependencyData, const EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModified) override;
+	virtual bool CanSetToForcedStringValue(const FString& InForcedValue) const override;
+	virtual void OnSetToForcedStringValue(const FString& InForcedValue) override;
 	/** end UUI_ListDataObject_Base Parent */
 	
 private:

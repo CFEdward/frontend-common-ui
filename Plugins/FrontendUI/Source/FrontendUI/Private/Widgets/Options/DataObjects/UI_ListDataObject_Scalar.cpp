@@ -79,6 +79,32 @@ bool UUI_ListDataObject_Scalar::TryResetBackToDefaultValue()
 	return false;
 }
 
+void UUI_ListDataObject_Scalar::OnEditDependencyDataModified(UUI_ListDataObject_Base* ModifiedDependencyData, const EOptionsListDataModifyReason ModifyReason)
+{
+	NotifyListDataModified(this, EOptionsListDataModifyReason::DependencyModified);
+
+	Super::OnEditDependencyDataModified(ModifiedDependencyData, ModifyReason);
+}
+
+bool UUI_ListDataObject_Scalar::CanSetToForcedStringValue(const FString& InForcedValue) const
+{
+	return GetCurrentValue() != FMath::GetMappedRangeValueClamped(
+		DisplayValueRange,
+		OutputValueRange,
+		StringToFloat(InForcedValue)
+	);
+}
+
+void UUI_ListDataObject_Scalar::OnSetToForcedStringValue(const FString& InForcedValue)
+{
+	if (DataDynamicSetter)
+	{
+		DataDynamicSetter->SetValueFromString(InForcedValue);
+
+		NotifyListDataModified(this, EOptionsListDataModifyReason::DependencyModified);
+	}
+}
+
 float UUI_ListDataObject_Scalar::StringToFloat(const FString& InString) const
 {
 	float OutConvertedValue = 0.f;
