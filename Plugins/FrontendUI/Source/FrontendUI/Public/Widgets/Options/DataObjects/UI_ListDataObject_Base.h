@@ -66,6 +66,11 @@ protected:
 	/** The child class should override this to specify how to set the current value to the Forced Value */
 	virtual void OnSetToForcedStringValue(const FString& InForcedValue) {}
 
+	/**
+	 * Will be called when the value of the dependency data has changed.
+	 * The child class can override this to handle the custom logic needed.
+	 * Super call is expected
+	 */
 	virtual void OnEditDependencyDataModified(UUI_ListDataObject_Base* ModifiedDependencyData, const EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModified);
 	
 private:

@@ -107,3 +107,23 @@ void UUI_ListDataObject_StringEnum::SetDefaultValueFromEnumOption(const EnumType
 
 	SetDefaultValueFromString(ConvertedEnumString);
 }
+
+UCLASS()
+class FRONTEND_API UUI_ListDataObject_StringInteger : public UUI_ListDataObject_String
+{
+	GENERATED_BODY()
+
+public:
+
+	void AddIntegerOption(int32 InIntegerValue, const FText& InDisplayText);
+
+protected:
+
+	/** UUI_ListDataObject_Base Parent */
+	virtual void OnEditDependencyDataModified(UUI_ListDataObject_Base* ModifiedDependencyData, const EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModified) override;
+	/** end UUI_ListDataObject_Base Parent */
+	
+	/** UUI_ListDataObject_String Parent */
+	virtual void OnDataObjectInitialized() override;
+	/** end UUI_ListDataObject_String Parent */
+};
