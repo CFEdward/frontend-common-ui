@@ -24,6 +24,7 @@ public:
 	void InitDataObject();
 
 	FOnListDataModified OnListDataModified;
+	FOnListDataModified OnDependencyDataModified;
 
 	LIST_DATA_ACCESSOR(FName, DataID);
 	LIST_DATA_ACCESSOR(FText, DataDisplayName);
@@ -34,6 +35,9 @@ public:
 
 	/** Gets called from OptionsDataRegistry for adding in Edit Conditions for the constructed List Data Object */
 	void AddEditCondition(const FOptionsDataEditConditionDescriptor& InEditCondition);
+	/** Gets called from OptionsDataRegistry to add in Dependency Data */
+	void AddEditDependencyData(UUI_ListDataObject_Base* InDependencyData);
+	
 	bool IsDataCurrentlyEditable();
 	
 	/**
@@ -61,6 +65,8 @@ protected:
 	virtual bool CanSetToForcedStringValue(const FString& InForcedValue) const { return false; }
 	/** The child class should override this to specify how to set the current value to the Forced Value */
 	virtual void OnSetToForcedStringValue(const FString& InForcedValue) {}
+
+	virtual void OnEditDependencyDataModified(UUI_ListDataObject_Base* ModifiedDependencyData, const EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModified);
 	
 private:
 

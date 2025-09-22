@@ -15,6 +15,14 @@ void UUI_ListDataObject_Base::AddEditCondition(const FOptionsDataEditConditionDe
 	EditConditionDescArray.Add(InEditCondition);
 }
 
+void UUI_ListDataObject_Base::AddEditDependencyData(UUI_ListDataObject_Base* InDependencyData)
+{
+	if (!InDependencyData->OnListDataModified.IsBoundToObject(this))
+	{
+		InDependencyData->OnListDataModified.AddUObject(this, &ThisClass::OnEditDependencyDataModified);
+	}
+}
+
 bool UUI_ListDataObject_Base::IsDataCurrentlyEditable()
 {
 	bool bIsEditable = true;
@@ -55,4 +63,9 @@ void UUI_ListDataObject_Base::NotifyListDataModified(UUI_ListDataObject_Base* Mo
 	{
 		UUI_GameUserSettings::Get()->ApplySettings(true);
 	}
+}
+
+void UUI_ListDataObject_Base::OnEditDependencyDataModified(UUI_ListDataObject_Base* ModifiedDependencyData, const EOptionsListDataModifyReason ModifyReason)
+{
+	OnDependencyDataModified.Broadcast(ModifiedDependencyData, ModifyReason);
 }

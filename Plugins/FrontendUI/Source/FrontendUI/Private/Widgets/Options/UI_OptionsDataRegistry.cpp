@@ -244,6 +244,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 
 			ScreenResolution->AddEditCondition(WindowModeEditCondition);
 			ScreenResolution->AddEditCondition(PackagedBuildOnlyCondition);
+			ScreenResolution->AddEditDependencyData(CreatedWindowMode);
 			VideoTabCollection->AddChildListData(ScreenResolution);
 		}
 	}
