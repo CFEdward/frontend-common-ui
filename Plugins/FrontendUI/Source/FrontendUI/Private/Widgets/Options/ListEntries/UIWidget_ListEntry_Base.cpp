@@ -56,11 +56,25 @@ void UUIWidget_ListEntry_Base::OnOwningListDataObjectSet(UUI_ListDataObject_Base
 		InOwningListDataObject->OnListDataModified.AddUObject(this, &ThisClass::OnOwningListDataObjectModified);
 	}
 
+	if (!InOwningListDataObject->OnDependencyDataModified.IsBoundToObject(this))
+	{
+		InOwningListDataObject->OnDependencyDataModified.AddUObject(this, &ThisClass::OnOwningDependencyDataObjectModified);
+	}
+	
 	OnToggleEditableState(InOwningListDataObject->IsDataCurrentlyEditable());
+	CachedOwningDataObject = InOwningListDataObject;
 }
 
 void UUIWidget_ListEntry_Base::OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason)
 {
+}
+
+void UUIWidget_ListEntry_Base::OnOwningDependencyDataObjectModified(UUI_ListDataObject_Base* OwningModifiedDependencyData, EOptionsListDataModifyReason ModifyReason)
+{
+	if (IsValid(CachedOwningDataObject))
+	{
+		OnToggleEditableState(CachedOwningDataObject->IsDataCurrentlyEditable());
+	}
 }
 
 void UUIWidget_ListEntry_Base::OnToggleEditableState(const bool bIsEditable)

@@ -45,6 +45,7 @@ protected:
 	 * Super call not needed.
 	 */
 	virtual void OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason);
+	virtual void OnOwningDependencyDataObjectModified(UUI_ListDataObject_Base* OwningModifiedDependencyData, EOptionsListDataModifyReason ModifyReason);
 
 	/** The child class should override this to change the Editable State of the Widgets it owns. Super call is expected */
 	virtual void OnToggleEditableState(bool bIsEditable);
@@ -52,6 +53,9 @@ protected:
 	void SelectThisEntryWidget() const;
 
 private:
+
+	UPROPERTY(Transient)
+	TObjectPtr<UUI_ListDataObject_Base> CachedOwningDataObject;
 
 	/*************** Bound Widgets ***************/
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional, AllowPrivateAccess = "true"))
