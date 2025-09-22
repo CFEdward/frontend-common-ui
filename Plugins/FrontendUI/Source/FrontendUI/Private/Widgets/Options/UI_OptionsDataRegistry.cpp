@@ -249,6 +249,32 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 		}
 	}
 
+	// Graphics Category
+	{
+		UUI_ListDataObject_Collection* GraphicsCategoryCollection = NewObject<UUI_ListDataObject_Collection>();
+		GraphicsCategoryCollection->SetDataID(FName(TEXT("GraphicsCategory")));
+		GraphicsCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Graphics")));
+		
+		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
+
+		// Display Gamma
+		{
+			UUI_ListDataObject_Scalar* DisplayGamma = NewObject<UUI_ListDataObject_Scalar>();
+			DisplayGamma->SetDataID(FName(TEXT("DisplayGamma")));
+			DisplayGamma->SetDataDisplayName(FText::FromString(TEXT("Display Gamma")));
+			DisplayGamma->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Display Gamma")));
+			DisplayGamma->SetDisplayValueRange(TRange<float>(0.f, 1.f));
+			DisplayGamma->SetOutputValueRange(TRange<float>(1.7f, 2.7f));	// The default value in Unreal is 2.2f
+			DisplayGamma->SetDisplayNumericType(ECommonNumericType::Percentage);
+			DisplayGamma->SetNumberFormattingOptions(UUI_ListDataObject_Scalar::NoDecimal());
+			DisplayGamma->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetCurrentDisplayGamma));
+			DisplayGamma->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetCurrentDisplayGamma));
+			DisplayGamma->SetDefaultValueFromString(LexToString(2.2f));
+
+			GraphicsCategoryCollection->AddChildListData(DisplayGamma);
+		}
+	}
+
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);
 }
 

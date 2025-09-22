@@ -47,3 +47,21 @@ void UUI_GameUserSettings::SetHDRAudio(const bool bInHDRAudio)
 
 	// ...
 }
+
+float UUI_GameUserSettings::GetCurrentDisplayGamma() const
+{
+	if (GEngine)
+	{
+		return GEngine->GetDisplayGamma();
+	}
+
+	return 0.f;
+}
+
+void UUI_GameUserSettings::SetCurrentDisplayGamma(const float InNewGamma)
+{
+	if (GEngine)
+	{
+		GEngine->DisplayGamma = InNewGamma;
+	}
+}

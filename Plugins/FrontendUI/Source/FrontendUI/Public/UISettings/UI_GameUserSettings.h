@@ -48,6 +48,13 @@ public:
 	UFUNCTION()
 	void SetHDRAudio(const bool bInHDRAudio);
 	/********** Audio Collection Tab **********/
+
+	/********** Video Collection Tab **********/
+	UFUNCTION()
+	float GetCurrentDisplayGamma() const;
+	UFUNCTION()
+	void SetCurrentDisplayGamma(const float InNewGamma);
+	/********** Video Collection Tab **********/
 	
 private:
 
@@ -69,4 +76,6 @@ private:
 	UPROPERTY(Config)
 	bool bHDRAudio{ false };
 	/********** Audio Collection Tab **********/
+
+	/********** Video Collection Tab **********/
 };
