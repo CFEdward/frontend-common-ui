@@ -247,15 +247,6 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			ScreenResolution->AddEditDependencyData(CreatedWindowMode);
 			VideoTabCollection->AddChildListData(ScreenResolution);
 		}
-	}
-
-	// Graphics Category
-	{
-		UUI_ListDataObject_Collection* GraphicsCategoryCollection = NewObject<UUI_ListDataObject_Collection>();
-		GraphicsCategoryCollection->SetDataID(FName(TEXT("GraphicsCategory")));
-		GraphicsCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Graphics")));
-		
-		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
 
 		// Display Gamma
 		{
@@ -271,7 +262,34 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			DisplayGamma->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetCurrentDisplayGamma));
 			DisplayGamma->SetDefaultValueFromString(LexToString(2.2f));
 
-			GraphicsCategoryCollection->AddChildListData(DisplayGamma);
+			DisplayGamma->AddEditCondition(PackagedBuildOnlyCondition);
+			VideoTabCollection->AddChildListData(DisplayGamma);
+		}
+	}
+
+	// Graphics Category
+	{
+		UUI_ListDataObject_Collection* GraphicsCategoryCollection = NewObject<UUI_ListDataObject_Collection>();
+		GraphicsCategoryCollection->SetDataID(FName(TEXT("GraphicsCategory")));
+		GraphicsCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Graphics")));
+		
+		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
+
+		{
+			UUI_ListDataObject_StringInteger* OverallQuality = NewObject<UUI_ListDataObject_StringInteger>();
+			OverallQuality->SetDataID(FName(TEXT("OverallQuality")));
+			OverallQuality->SetDataDisplayName(FText::FromString(TEXT("Overall Quality")));
+			OverallQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Overall Quality")));
+			OverallQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			OverallQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			OverallQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			OverallQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			OverallQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			OverallQuality->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetOverallScalabilityLevel));
+			OverallQuality->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetOverallScalabilityLevel));
+			OverallQuality->SetShouldApplySettingsImmediately(true);
+
+			GraphicsCategoryCollection->AddChildListData(OverallQuality);
 		}
 	}
 

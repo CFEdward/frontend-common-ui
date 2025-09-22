@@ -109,7 +109,7 @@ void UUI_ListDataObject_StringEnum::SetDefaultValueFromEnumOption(const EnumType
 }
 
 UCLASS()
-class FRONTEND_API UUI_ListDataObject_StringInteger : public UUI_ListDataObject_String
+class FRONTENDUI_API UUI_ListDataObject_StringInteger : public UUI_ListDataObject_String
 {
 	GENERATED_BODY()
 
