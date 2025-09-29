@@ -313,6 +313,26 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			ResolutionScale->AddEditDependencyData(CreatedOverallQuality);
 			GraphicsCategoryCollection->AddChildListData(ResolutionScale);
 		}
+		
+		// Global Illumination Quality
+		{
+		    UUI_ListDataObject_StringInteger* GIQuality = NewObject<UUI_ListDataObject_StringInteger>();
+		    GIQuality->SetDataID(FName(TEXT("GIQuality")));
+            GIQuality->SetDataDisplayName(FText::FromString(TEXT("Global Illumination Quality")));
+            GIQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Global Illumination")));
+            GIQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+            GIQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+            GIQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+            GIQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+            GIQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+            GIQuality->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetGlobalIlluminationQuality));
+            GIQuality->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetGlobalIlluminationQuality));
+            GIQuality->SetShouldApplySettingsImmediately(true);
+            
+            GIQuality->AddEditDependencyData(CreatedOverallQuality);
+            CreatedOverallQuality->AddEditDependencyData(GIQuality);
+            GraphicsCategoryCollection->AddChildListData(GIQuality);
+		}
 	}
 
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);

@@ -221,6 +221,8 @@ void UUI_ListDataObject_StringInteger::OnEditDependencyDataModified(UUI_ListData
 {
 	if (DataDynamicGetter)
 	{
+		if (CurrentStringValue == DataDynamicGetter->GetValueAsString()) return;
+		
 		CurrentStringValue = DataDynamicGetter->GetValueAsString();
 
 		if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
