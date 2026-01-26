@@ -247,6 +247,50 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			ScreenResolution->AddEditDependencyData(CreatedWindowMode);
 			VideoTabCollection->AddChildListData(ScreenResolution);
 		}
+		
+		//Vertical Sync
+		{
+			UUI_ListDataObject_StringBool* VerticalSync = NewObject<UUI_ListDataObject_StringBool>();
+			VerticalSync->SetDataID(FName("VerticalSync"));
+			VerticalSync->SetDataDisplayName(FText::FromString(TEXT("V-Sync")));
+			VerticalSync->SetDescriptionRichText(FText::FromString(TEXT("This is description for V-Sync")));
+			VerticalSync->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(IsVSyncEnabled));
+			VerticalSync->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetVSyncEnabled));
+			VerticalSync->SetFalseAsDefaultValue();
+			VerticalSync->SetShouldApplySettingsImmediately(true);
+
+			FOptionsDataEditConditionDescriptor FullscreenOnlyCondition;
+			FullscreenOnlyCondition.SetEditConditionFunc(
+				[CreatedWindowMode]()->bool
+				{
+					return CreatedWindowMode->GetCurrentValueAsEnum<EWindowMode::Type>() == EWindowMode::Fullscreen;
+				}
+			);
+			FullscreenOnlyCondition.SetDisabledRichReason(TEXT("\n\n<Disabled>This feature only works if the 'Window Mode' is set to 'Fullscreen'.</>"));
+			FullscreenOnlyCondition.SetDisabledForcedStringValue(TEXT("false"));
+
+			VerticalSync->AddEditCondition(FullscreenOnlyCondition);
+			VideoTabCollection->AddChildListData(VerticalSync);
+		}
+		
+		// Frame Rate Limit
+		{
+			UUI_ListDataObject_String* FrameRateLimit = NewObject<UUI_ListDataObject_String>();
+			FrameRateLimit->SetDataID(FName(TEXT("FrameRateLimit")));
+			FrameRateLimit->SetDataDisplayName(FText::FromString(TEXT("Frame Rate Limit")));
+			FrameRateLimit->SetDescriptionRichText(FText::FromString(TEXT("This is a description for FrameRateLimit")));
+			FrameRateLimit->AddDynamicOption(LexToString(30.f), FText::FromString(TEXT("30 FPS")));
+			FrameRateLimit->AddDynamicOption(LexToString(60.f), FText::FromString(TEXT("60 FPS")));
+			FrameRateLimit->AddDynamicOption(LexToString(90.f), FText::FromString(TEXT("90 FPS")));
+			FrameRateLimit->AddDynamicOption(LexToString(120.f), FText::FromString(TEXT("120 FPS")));
+			FrameRateLimit->AddDynamicOption(LexToString(0.f), FText::FromString(TEXT("No Limit")));
+			FrameRateLimit->SetDefaultValueFromString(LexToString(0.f));
+			FrameRateLimit->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetFrameRateLimit));
+			FrameRateLimit->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetFrameRateLimit));
+			FrameRateLimit->SetShouldApplySettingsImmediately(true);
+			
+			VideoTabCollection->AddChildListData(FrameRateLimit);
+		}
 
 		// Display Gamma
 		{
