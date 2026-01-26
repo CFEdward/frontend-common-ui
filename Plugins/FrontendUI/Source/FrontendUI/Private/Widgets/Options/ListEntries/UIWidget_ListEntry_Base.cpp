@@ -10,7 +10,7 @@
 
 void UUIWidget_ListEntry_Base::NativeOnListEntryWidgetHovered(const bool bWasHovered)
 {
-	BP_OnListEntryWidgetHovered(bWasHovered, IsListItemSelected());
+	BP_OnListEntryWidgetHovered(bWasHovered, GetListItem() ? IsListItemSelected() : false);
 }
 
 void UUIWidget_ListEntry_Base::NativeOnListItemObjectSet(UObject* ListItemObject)

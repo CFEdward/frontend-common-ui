@@ -5,6 +5,7 @@
 
 #include "UI_BlueprintLibrary.h"
 #include "UI_GameplayTags.h"
+#include "Internationalization/StringTableRegistry.h"
 #include "UISettings/UI_GameUserSettings.h"
 #include "Widgets/Options/UI_OptionsDataInteractionHelper.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_Collection.h"
@@ -12,8 +13,11 @@
 #include "Widgets/Options/DataObjects/UI_ListDataObject_String.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_StringResolution.h"
 
-#define MAKE_OPTIONS_DATA_CONTROL(SetterOrGetterFuncName)																			\
+#define MAKE_OPTIONS_DATA_CONTROL(SetterOrGetterFuncName)	\
 	MakeShared<FUI_OptionsDataInteractionHelper>(GET_FUNCTION_NAME_STRING_CHECKED(UUI_GameUserSettings, SetterOrGetterFuncName))
+
+#define GET_DESCRIPTION(InKey)	\
+	LOCTABLE("/FrontendUI/UI/StringTables/ST_OptionsScreenDescription.ST_OptionsScreenDescription", InKey)
 
 void UUI_OptionsDataRegistry::InitOptionsDataRegistry(ULocalPlayer* InOwningLocalPlayer)
 {
@@ -206,7 +210,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringEnum* WindowMode = NewObject<UUI_ListDataObject_StringEnum>();
 			WindowMode->SetDataID(FName(TEXT("WindowMode")));
 			WindowMode->SetDataDisplayName(FText::FromString(TEXT("Window Mode")));
-			WindowMode->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Window Mode")));
+			WindowMode->SetDescriptionRichText(GET_DESCRIPTION("WindowModeDescKey"));
 			WindowMode->AddEnumOption(EWindowMode::Fullscreen, FText::FromString(TEXT("Fullscreen")));
 			WindowMode->AddEnumOption(EWindowMode::WindowedFullscreen, FText::FromString(TEXT("Borderless Window")));
 			WindowMode->AddEnumOption(EWindowMode::Windowed, FText::FromString(TEXT("Windowed")));
@@ -225,7 +229,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringResolution* ScreenResolution = NewObject<UUI_ListDataObject_StringResolution>();
 			ScreenResolution->SetDataID(FName(TEXT("ScreenResolution")));
 			ScreenResolution->SetDataDisplayName(FText::FromString(TEXT("Resolution")));
-			ScreenResolution->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Resolution")));
+			ScreenResolution->SetDescriptionRichText(GET_DESCRIPTION("ScreenResolutionsDescKey"));
 			ScreenResolution->InitResolutionValues();
 			ScreenResolution->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetScreenResolution));
 			ScreenResolution->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetScreenResolution));
@@ -253,7 +257,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringBool* VerticalSync = NewObject<UUI_ListDataObject_StringBool>();
 			VerticalSync->SetDataID(FName("VerticalSync"));
 			VerticalSync->SetDataDisplayName(FText::FromString(TEXT("V-Sync")));
-			VerticalSync->SetDescriptionRichText(FText::FromString(TEXT("This is description for V-Sync")));
+			VerticalSync->SetDescriptionRichText(GET_DESCRIPTION("VerticalSyncDescKey"));
 			VerticalSync->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(IsVSyncEnabled));
 			VerticalSync->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetVSyncEnabled));
 			VerticalSync->SetFalseAsDefaultValue();
@@ -278,7 +282,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_String* FrameRateLimit = NewObject<UUI_ListDataObject_String>();
 			FrameRateLimit->SetDataID(FName(TEXT("FrameRateLimit")));
 			FrameRateLimit->SetDataDisplayName(FText::FromString(TEXT("Frame Rate Limit")));
-			FrameRateLimit->SetDescriptionRichText(FText::FromString(TEXT("This is a description for FrameRateLimit")));
+			FrameRateLimit->SetDescriptionRichText(GET_DESCRIPTION("FrameRateLimitDescKey"));
 			FrameRateLimit->AddDynamicOption(LexToString(30.f), FText::FromString(TEXT("30 FPS")));
 			FrameRateLimit->AddDynamicOption(LexToString(60.f), FText::FromString(TEXT("60 FPS")));
 			FrameRateLimit->AddDynamicOption(LexToString(90.f), FText::FromString(TEXT("90 FPS")));
@@ -297,9 +301,10 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_Scalar* DisplayGamma = NewObject<UUI_ListDataObject_Scalar>();
 			DisplayGamma->SetDataID(FName(TEXT("DisplayGamma")));
 			DisplayGamma->SetDataDisplayName(FText::FromString(TEXT("Display Gamma")));
-			DisplayGamma->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Display Gamma")));
+			DisplayGamma->SetDescriptionRichText(GET_DESCRIPTION("DisplayGammaDescKey"));
 			DisplayGamma->SetDisplayValueRange(TRange<float>(0.f, 1.f));
 			DisplayGamma->SetOutputValueRange(TRange<float>(1.7f, 2.7f));	// The default value in Unreal is 2.2f
+			DisplayGamma->SetSliderStepSize(.01f);
 			DisplayGamma->SetDisplayNumericType(ECommonNumericType::Percentage);
 			DisplayGamma->SetNumberFormattingOptions(UUI_ListDataObject_Scalar::NoDecimal());
 			DisplayGamma->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetCurrentDisplayGamma));
@@ -326,7 +331,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringInteger* OverallQuality = NewObject<UUI_ListDataObject_StringInteger>();
 			OverallQuality->SetDataID(FName(TEXT("OverallQuality")));
 			OverallQuality->SetDataDisplayName(FText::FromString(TEXT("Overall Quality")));
-			OverallQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Overall Quality")));
+			OverallQuality->SetDescriptionRichText(GET_DESCRIPTION("OverallQualityDescKey"));
 			OverallQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
 			OverallQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			OverallQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
@@ -345,9 +350,10 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_Scalar* ResolutionScale = NewObject<UUI_ListDataObject_Scalar>();
 			ResolutionScale->SetDataID(FName(TEXT("ResolutionScale")));
 			ResolutionScale->SetDataDisplayName(FText::FromString(TEXT("3D Resolution")));
-			ResolutionScale->SetDescriptionRichText(FText::FromString(TEXT("This is a description for 3D Resolution")));
+			ResolutionScale->SetDescriptionRichText(GET_DESCRIPTION("ResolutionScaleDescKey"));
 			ResolutionScale->SetDisplayValueRange(TRange<float>(0.f, 1.f));
 			ResolutionScale->SetOutputValueRange(TRange<float>(0.f, 1.f));
+			ResolutionScale->SetSliderStepSize(.01f); 
 			ResolutionScale->SetDisplayNumericType(ECommonNumericType::Percentage);
 			ResolutionScale->SetNumberFormattingOptions(UUI_ListDataObject_Scalar::NoDecimal());
 			ResolutionScale->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetResolutionScaleNormalized));
@@ -363,7 +369,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 		    UUI_ListDataObject_StringInteger* GIQuality = NewObject<UUI_ListDataObject_StringInteger>();
 		    GIQuality->SetDataID(FName(TEXT("GIQuality")));
             GIQuality->SetDataDisplayName(FText::FromString(TEXT("Global Illumination Quality")));
-            GIQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Global Illumination")));
+            GIQuality->SetDescriptionRichText(GET_DESCRIPTION("GlobalIlluminationQualityDescKey"));
             GIQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
             GIQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
             GIQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
@@ -383,7 +389,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringInteger* ShadowQuality = NewObject<UUI_ListDataObject_StringInteger>();
 			ShadowQuality->SetDataID(FName(TEXT("ShadowQuality")));
 			ShadowQuality->SetDataDisplayName(FText::FromString(TEXT("Shadow Quality")));
-			ShadowQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Shadow Quality")));
+			ShadowQuality->SetDescriptionRichText(GET_DESCRIPTION("ShadowQualityDescKey"));
 			ShadowQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
 			ShadowQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			ShadowQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
@@ -403,7 +409,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringInteger* AAQuality = NewObject<UUI_ListDataObject_StringInteger>();
 			AAQuality->SetDataID(FName(TEXT("AAQuality")));
 			AAQuality->SetDataDisplayName(FText::FromString(TEXT("Anti Aliasing Quality")));
-			AAQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Anti Aliasing Quality")));
+			AAQuality->SetDescriptionRichText(GET_DESCRIPTION("AntiAliasingDescKey"));
 			AAQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
 			AAQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			AAQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
@@ -423,7 +429,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringInteger* ViewDistanceQuality = NewObject<UUI_ListDataObject_StringInteger>();
 			ViewDistanceQuality->SetDataID(FName(TEXT("ViewDistanceQuality")));
 			ViewDistanceQuality->SetDataDisplayName(FText::FromString(TEXT("View Distance")));
-			ViewDistanceQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for View Distance")));
+			ViewDistanceQuality->SetDescriptionRichText(GET_DESCRIPTION("ViewDistanceDescKey"));
 			ViewDistanceQuality->AddIntegerOption(0, FText::FromString(TEXT("Near")));
 			ViewDistanceQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			ViewDistanceQuality->AddIntegerOption(2, FText::FromString(TEXT("Far")));
@@ -443,7 +449,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringInteger* TextureQuality = NewObject<UUI_ListDataObject_StringInteger>();
 			TextureQuality->SetDataID(FName(TEXT("TextureQuality")));
 			TextureQuality->SetDataDisplayName(FText::FromString(TEXT("Texture Quality")));
-			TextureQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Texture Quality")));
+			TextureQuality->SetDescriptionRichText(GET_DESCRIPTION("TextureQualityDescKey"));
 			TextureQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
 			TextureQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			TextureQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
@@ -463,7 +469,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringInteger* VisualEffectQuality = NewObject<UUI_ListDataObject_StringInteger>();
 			VisualEffectQuality->SetDataID(FName(TEXT("VisualEffectQuality")));
 			VisualEffectQuality->SetDataDisplayName(FText::FromString(TEXT("Visual Effects Quality")));
-			VisualEffectQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Visual Effects Quality")));
+			VisualEffectQuality->SetDescriptionRichText(GET_DESCRIPTION("VisualEffectQualityDescKey"));
 			VisualEffectQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
 			VisualEffectQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			VisualEffectQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
@@ -483,7 +489,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringInteger* ReflectionQuality = NewObject<UUI_ListDataObject_StringInteger>();
 			ReflectionQuality->SetDataID(FName(TEXT("ReflectionQuality")));
 			ReflectionQuality->SetDataDisplayName(FText::FromString(TEXT("Reflection Quality")));
-			ReflectionQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Reflection Quality")));
+			ReflectionQuality->SetDescriptionRichText(GET_DESCRIPTION("ReflectionQualityDescKey"));
 			ReflectionQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
 			ReflectionQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			ReflectionQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
@@ -503,7 +509,7 @@ void UUI_OptionsDataRegistry::InitVideoCollectionTab()
 			UUI_ListDataObject_StringInteger* PostProcessingQuality = NewObject<UUI_ListDataObject_StringInteger>();
 			PostProcessingQuality->SetDataID(FName(TEXT("PostProcessingQuality")));
 			PostProcessingQuality->SetDataDisplayName(FText::FromString(TEXT("Post Processing Quality")));
-			PostProcessingQuality->SetDescriptionRichText(FText::FromString(TEXT("This is a description for Post Processing Quality")));
+			PostProcessingQuality->SetDescriptionRichText(GET_DESCRIPTION("PostProcessingQualityDescKey"));
 			PostProcessingQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
 			PostProcessingQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
 			PostProcessingQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
