@@ -553,6 +553,14 @@ void UUI_OptionsDataRegistry::InitControlCollectionTab(const ULocalPlayer* InOwn
 		
 		// Keyboard & Mouse Inputs
 		{
+			FPlayerMappableKeyQueryOptions KeyboardMouseOnly;
+			KeyboardMouseOnly.KeyToMatch = EKeys::S;	// Just a random keyboard key is enough
+			KeyboardMouseOnly.bMatchBasicKeyTypes = true;
+			
+			//FPlayerMappableKeyQueryOptions GamepadOnly;
+			//GamepadOnly.KeyToMatch = EKeys::Gamepad_FaceButton_Bottom;
+			//GamepadOnly.bMatchBasicKeyTypes = true;
+			
 			for (const auto& ProfilePair : EIUserSettings->GetAllAvailableKeyProfiles())
 			{
 				UEnhancedPlayerMappableKeyProfile* MappableKeyProfile = ProfilePair.Value;
@@ -562,11 +570,14 @@ void UUI_OptionsDataRegistry::InitControlCollectionTab(const ULocalPlayer* InOwn
 				{
 					for (const FPlayerKeyMapping& KeyMapping : MappingRowPair.Value.Mappings)
 					{
-						Debug::Print(
-							TEXT("Mapping ID: ") + KeyMapping.GetMappingName().ToString() +
-							TEXT(" Display Name: ") + KeyMapping.GetDisplayName().ToString() +
-							TEXT(" Bound Key: ") + KeyMapping.GetCurrentKey().GetDisplayName().ToString()
-						);
+						if (MappableKeyProfile->DoesMappingPassQueryOptions(KeyMapping, KeyboardMouseOnly))
+						{
+							Debug::Print(
+								TEXT("Mapping ID: ") + KeyMapping.GetMappingName().ToString() +
+								TEXT(" Display Name: ") + KeyMapping.GetDisplayName().ToString() +
+								TEXT(" Bound Key: ") + KeyMapping.GetCurrentKey().GetDisplayName().ToString()
+							);
+						}
 					}
 				}
 			}
