@@ -30,7 +30,7 @@ private:
 	void InitGameplayCollectionTab();
 	void InitAudioCollectionTab();
 	void InitVideoCollectionTab();
-	void InitControlCollectionTab();
+	void InitControlCollectionTab(const ULocalPlayer* InOwningLocalPlayer);
 
 	UPROPERTY(Transient)
 	TArray<TObjectPtr<UUI_ListDataObject_Collection>> RegisteredOptionsTabCollections;
