@@ -12,6 +12,7 @@
 #include "UserSettings/EnhancedInputUserSettings.h"
 #include "Widgets/Options/UI_OptionsDataInteractionHelper.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_Collection.h"
+#include "Widgets/Options/DataObjects/UI_ListDataObject_KeyRemap.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_Scalar.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_String.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_StringResolution.h"
@@ -572,11 +573,18 @@ void UUI_OptionsDataRegistry::InitControlCollectionTab(const ULocalPlayer* InOwn
 					{
 						if (MappableKeyProfile->DoesMappingPassQueryOptions(KeyMapping, KeyboardMouseOnly))
 						{
-							Debug::Print(
+							/*Debug::Print(
 								TEXT("Mapping ID: ") + KeyMapping.GetMappingName().ToString() +
 								TEXT(" Display Name: ") + KeyMapping.GetDisplayName().ToString() +
 								TEXT(" Bound Key: ") + KeyMapping.GetCurrentKey().GetDisplayName().ToString()
-							);
+							);*/
+							
+							UUI_ListDataObject_KeyRemap* KeyRemapDataObject = NewObject<UUI_ListDataObject_KeyRemap>();
+							KeyRemapDataObject->SetDataID(KeyMapping.GetMappingName());
+							KeyRemapDataObject->SetDataDisplayName(KeyMapping.GetDisplayName());
+							KeyRemapDataObject->InitKeyRemapData(EIUserSettings, MappableKeyProfile, ECommonInputType::MouseAndKeyboard, KeyMapping);
+							
+							KeyboardMouseCollection->AddChildListData(KeyRemapDataObject);
 						}
 					}
 				}
