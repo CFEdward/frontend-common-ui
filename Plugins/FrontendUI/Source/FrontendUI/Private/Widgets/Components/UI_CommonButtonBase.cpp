@@ -3,6 +3,7 @@
 
 #include "Widgets/Components/UI_CommonButtonBase.h"
 
+#include "CommonLazyImage.h"
 #include "CommonTextBlock.h"
 #include "Subsystems/UI_Subsystem.h"
 
@@ -56,4 +57,12 @@ FText UUI_CommonButtonBase::GetButtonDisplayText() const
 	}
 
 	return FText();
+}
+
+void UUI_CommonButtonBase::SetButtonDisplayImage(const FSlateBrush& InBrush) const
+{
+	if (CommonLazyImage_ButtonImage)
+	{
+		CommonLazyImage_ButtonImage->SetBrush(InBrush);
+	}
 }
