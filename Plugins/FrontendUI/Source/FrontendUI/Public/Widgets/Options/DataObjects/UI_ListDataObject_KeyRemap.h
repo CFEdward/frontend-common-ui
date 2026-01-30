@@ -24,6 +24,8 @@ public:
 	
 private:
 	
+	FPlayerKeyMapping* GetOwningKeyMapping() const;
+	
 	UPROPERTY(Transient)
 	TObjectPtr<UEnhancedInputUserSettings> CachedOwningInputUserSettings;
 	UPROPERTY(Transient)
