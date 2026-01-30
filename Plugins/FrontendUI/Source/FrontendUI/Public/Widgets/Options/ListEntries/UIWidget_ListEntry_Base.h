@@ -57,8 +57,8 @@ private:
 	UPROPERTY(Transient)
 	TObjectPtr<UUI_ListDataObject_Base> CachedOwningDataObject;
 
-	/*************** Bound Widgets ***************/
+	/** Bound Widgets */
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional, AllowPrivateAccess = "true"))
 	TObjectPtr<UCommonTextBlock> CommonText_SettingDisplayName;
-	/*************** Bound Widgets ***************/
+	/** Bound Widgets */
 };

@@ -12,3 +12,8 @@ void UUI_ListDataObject_KeyRemap::InitKeyRemapData(UEnhancedInputUserSettings* I
 	CachedOwningMappingName = InOwningPlayerKeyMapping.GetMappingName();
 	CachedOwningMappableKeySlot = InOwningPlayerKeyMapping.GetSlot();
 }
+
+FSlateBrush UUI_ListDataObject_KeyRemap::GetIconFromCurrentKey() const
+{
+	return FSlateBrush();
+}

@@ -6,6 +6,7 @@
 #include "UIWidget_ListEntry_Base.h"
 #include "UIWidget_ListEntry_KeyRemap.generated.h"
 
+class UUI_ListDataObject_KeyRemap;
 class UUI_CommonButtonBase;
 
 UCLASS(Abstract, BlueprintType, meta = (DisableNativeTick))
@@ -13,7 +14,17 @@ class FRONTENDUI_API UUIWidget_ListEntry_KeyRemap : public UUIWidget_ListEntry_B
 {
 	GENERATED_BODY()
 	
+protected:
+	
+	/** UUIWidget_ListEntry_Base Parent */
+	virtual void OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject) override;
+	virtual void OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason) override;
+	/** end UUIWidget_ListEntry_Base Parent */
+	
 private:
+	
+	UPROPERTY(Transient)
+	TObjectPtr<UUI_ListDataObject_KeyRemap> CachedOwningKeyRemapDataObject;
 	
 	/** Bound Widgets */
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
