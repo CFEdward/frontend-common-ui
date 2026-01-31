@@ -4,6 +4,7 @@
 #include "Widgets/Options/UIWidget_KeyRemapScreen.h"
 
 #include "CommonRichTextBlock.h"
+#include "UI_DebugHelper.h"
 #include "Framework/Application/IInputProcessor.h"
 
 class FKeyRemapScreenInputPreprocessor : public IInputProcessor
@@ -124,8 +125,36 @@ void UUIWidget_KeyRemapScreen::NativeOnDeactivated()
 
 void UUIWidget_KeyRemapScreen::OnValidKeyPressedDetected(const FKey& PressedKey)
 {
+	RequestDeactivateWidget([this, PressedKey]()
+		{
+			Debug::Print(TEXT("Pressed Key: ") + PressedKey.GetDisplayName().ToString());
+			OnKeyRemapScreenKeyPressed.ExecuteIfBound(PressedKey);
+		}
+	);
 }
 
 void UUIWidget_KeyRemapScreen::OnKeySelectCancelled(const FString& CancelReason)
 {
+	RequestDeactivateWidget([this, CancelReason]()
+		{
+			Debug::Print(CancelReason);
+			OnKeyRemapScreenKeySelectCancelled.ExecuteIfBound(CancelReason);
+		}
+	);
+}
+
+void UUIWidget_KeyRemapScreen::RequestDeactivateWidget(TFunction<void()> PreDeactivateCallback)
+{
+	// Delay a tick to make sure the input is processed correctly
+	FTSTicker::GetCoreTicker().AddTicker(
+		FTickerDelegate::CreateLambda(
+			[PreDeactivateCallback, this](float DeltaTime)->bool
+			{
+				PreDeactivateCallback();
+				DeactivateWidget();
+				
+				return false;
+			}
+		)
+	);
 }
