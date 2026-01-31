@@ -3,7 +3,11 @@
 
 #include "Widgets/Options/ListEntries/UIWidget_ListEntry_KeyRemap.h"
 
+#include "UI_BlueprintLibrary.h"
 #include "UI_DebugHelper.h"
+#include "UI_GameplayTags.h"
+#include "Subsystems/UI_Subsystem.h"
+#include "Widgets/UIWidget_ActivatableBase.h"
 #include "Widgets/Components/UI_CommonButtonBase.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_KeyRemap.h"
 
@@ -34,7 +38,14 @@ void UUIWidget_ListEntry_KeyRemap::OnOwningListDataObjectModified(UUI_ListDataOb
 
 void UUIWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 {
-	Debug::Print(TEXT("Remap Key Button Clicked"));
+	UUI_Subsystem::Get(this)->PushSoftWidgetToStackAsync(
+		Frontend::WidgetStack::Modal,
+		UUI_BlueprintLibrary::GetFrontendSoftWidgetClassByTag(Frontend::Widget::KeyRemapScreen),
+		[](EAsyncPushWidgetState PushState, UUIWidget_ActivatableBase* PushedWidget)
+		{
+			
+		}
+	);
 }
 
 void UUIWidget_ListEntry_KeyRemap::ResetKeyBindingButtonClicked()
