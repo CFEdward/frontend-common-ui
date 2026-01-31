@@ -11,6 +11,15 @@
 void UUIWidget_ListEntry_Base::NativeOnListEntryWidgetHovered(const bool bWasHovered)
 {
 	BP_OnListEntryWidgetHovered(bWasHovered, GetListItem() ? IsListItemSelected() : false);
+	
+	if (bWasHovered)
+	{
+		BP_OnToggleEntryWidgetHighlightState(true);
+	}
+	else
+	{
+		BP_OnToggleEntryWidgetHighlightState(GetListItem() && IsListItemSelected());
+	}
 }
 
 void UUIWidget_ListEntry_Base::NativeOnListItemObjectSet(UObject* ListItemObject)
@@ -18,6 +27,13 @@ void UUIWidget_ListEntry_Base::NativeOnListItemObjectSet(UObject* ListItemObject
 	IUserObjectListEntry::NativeOnListItemObjectSet(ListItemObject);
 
 	OnOwningListDataObjectSet(CastChecked<UUI_ListDataObject_Base>(ListItemObject));
+}
+
+void UUIWidget_ListEntry_Base::NativeOnItemSelectionChanged(const bool bIsSelected)
+{
+	IUserObjectListEntry::NativeOnItemSelectionChanged(bIsSelected);
+	
+	BP_OnToggleEntryWidgetHighlightState(bIsSelected);
 }
 
 void UUIWidget_ListEntry_Base::NativeOnEntryReleased()
