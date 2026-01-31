@@ -7,7 +7,7 @@ void UUIWidget_KeyRemapScreen::NativeOnActivated()
 {
 	Super::NativeOnActivated();
 	
-	CachedInputPreprocessor = MakeShared<FKeyRemapScreenInputPreprocessor>();
+	CachedInputPreprocessor = MakeShared<FKeyRemapScreenInputPreprocessor>(CachedDesiredInputType);
 	
 	FSlateApplication::Get().RegisterInputPreProcessor(CachedInputPreprocessor, -1);
 }
@@ -22,4 +22,9 @@ void UUIWidget_KeyRemapScreen::NativeOnDeactivated()
 		
 		CachedInputPreprocessor.Reset();
 	}
+}
+
+void UUIWidget_KeyRemapScreen::SetDesiredInputTypeToFilter(const ECommonInputType InDesiredInputType)
+{
+	CachedDesiredInputType = InDesiredInputType;
 }

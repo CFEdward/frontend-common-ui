@@ -9,6 +9,7 @@
 #include "Subsystems/UI_Subsystem.h"
 #include "Widgets/UIWidget_ActivatableBase.h"
 #include "Widgets/Components/UI_CommonButtonBase.h"
+#include "Widgets/Options/UIWidget_KeyRemapScreen.h"
 #include "Widgets/Options/DataObjects/UI_ListDataObject_KeyRemap.h"
 
 void UUIWidget_ListEntry_KeyRemap::NativeOnInitialized()
@@ -41,9 +42,16 @@ void UUIWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 	UUI_Subsystem::Get(this)->PushSoftWidgetToStackAsync(
 		Frontend::WidgetStack::Modal,
 		UUI_BlueprintLibrary::GetFrontendSoftWidgetClassByTag(Frontend::Widget::KeyRemapScreen),
-		[](EAsyncPushWidgetState PushState, UUIWidget_ActivatableBase* PushedWidget)
+		[this](const EAsyncPushWidgetState PushState, UUIWidget_ActivatableBase* PushedWidget)
 		{
-			
+			if (PushState == EAsyncPushWidgetState::OnCreatedBeforePush)
+			{
+				UUIWidget_KeyRemapScreen* CreatedKeyRemapScreen = CastChecked<UUIWidget_KeyRemapScreen>(PushedWidget);
+				if (CachedOwningKeyRemapDataObject)
+				{
+					CreatedKeyRemapScreen->SetDesiredInputTypeToFilter(CachedOwningKeyRemapDataObject->GetDesiredInputKeyType());
+				}
+			}
 		}
 	);
 }

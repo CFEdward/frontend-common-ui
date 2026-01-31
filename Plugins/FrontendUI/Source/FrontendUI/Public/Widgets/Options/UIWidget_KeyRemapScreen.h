@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CommonInputTypeEnum.h"
 #include "UI_DebugHelper.h"
 #include "Framework/Application/IInputProcessor.h"
 #include "Widgets/UIWidget_ActivatableBase.h"
@@ -10,8 +11,16 @@
 
 class UCommonRichTextBlock;
 
-struct FKeyRemapScreenInputPreprocessor : IInputProcessor
+class FKeyRemapScreenInputPreprocessor : IInputProcessor
 {
+public:
+	
+	FKeyRemapScreenInputPreprocessor(const ECommonInputType InInputTypeToListenTo)
+		: CachedInputTypeToListenTo(InInputTypeToListenTo)
+	{
+		
+	}
+	
 protected:
 	
 	/** IInputProcessor Interface */
@@ -20,6 +29,9 @@ protected:
 	virtual bool HandleKeyDownEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent) override
 	{
 		Debug::Print(TEXT("Pressed Key: ") + InKeyEvent.GetKey().GetDisplayName().ToString());
+
+		const UEnum* StaticCommonInputType = StaticEnum<ECommonInputType>();
+		Debug::Print(TEXT("Desired Input Key Type: ") + StaticCommonInputType->GetValueAsString(CachedInputTypeToListenTo));
 		
 		return true;
 	}
@@ -31,12 +43,20 @@ protected:
 		return true;
 	}
 	/** end IInputProcessor Interface */
+	
+private:
+	
+	ECommonInputType CachedInputTypeToListenTo;
 };
 
 UCLASS(Abstract, BlueprintType, meta = (DisableNativeTick))
 class FRONTENDUI_API UUIWidget_KeyRemapScreen : public UUIWidget_ActivatableBase
 {
 	GENERATED_BODY()
+	
+public:
+	
+	void SetDesiredInputTypeToFilter(const ECommonInputType InDesiredInputType);
 	
 protected:
 	
@@ -48,6 +68,7 @@ protected:
 private:
 	
 	TSharedPtr<FKeyRemapScreenInputPreprocessor> CachedInputPreprocessor;
+	ECommonInputType CachedDesiredInputType;
 	
 	/** Bound Widgets */
 	UPROPERTY(meta = (BindWidget))
