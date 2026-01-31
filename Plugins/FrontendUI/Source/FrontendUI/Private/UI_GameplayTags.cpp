@@ -19,6 +19,8 @@ namespace Frontend
 		UE_DEFINE_GAMEPLAY_TAG(MainMenuScreen, "Frontend.Widget.MainMenuScreen");
 		UE_DEFINE_GAMEPLAY_TAG(StoryScreen, "Frontend.Widget.StoryScreen");
 		UE_DEFINE_GAMEPLAY_TAG(OptionsScreen, "Frontend.Widget.OptionsScreen");
+		
+		UE_DEFINE_GAMEPLAY_TAG(KeyRemapScreen, "Frontend.Widget.KeyRemapScreen");
 	}
 
 	namespace OptionsImages
