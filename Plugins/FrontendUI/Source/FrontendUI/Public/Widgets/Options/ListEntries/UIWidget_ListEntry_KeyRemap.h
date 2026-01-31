@@ -16,12 +16,19 @@ class FRONTENDUI_API UUIWidget_ListEntry_KeyRemap : public UUIWidget_ListEntry_B
 	
 protected:
 	
+	/** UUserWidget Parent */
+	virtual void NativeOnInitialized() override;
+	/** end UUserWidget Parent */
+	
 	/** UUIWidget_ListEntry_Base Parent */
 	virtual void OnOwningListDataObjectSet(UUI_ListDataObject_Base* InOwningListDataObject) override;
 	virtual void OnOwningListDataObjectModified(UUI_ListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason) override;
 	/** end UUIWidget_ListEntry_Base Parent */
 	
 private:
+	
+	void OnRemapKeyButtonClicked();
+	void ResetKeyBindingButtonClicked();
 	
 	UPROPERTY(Transient)
 	TObjectPtr<UUI_ListDataObject_KeyRemap> CachedOwningKeyRemapDataObject;
