@@ -7,7 +7,7 @@
 #include "UI_LoadingScreenSubsystem.generated.h"
 
 UCLASS()
-class FRONTENDUI_API UUI_LoadingScreenSubsystem : public UGameInstanceSubsystem
+class FRONTENDUI_API UUI_LoadingScreenSubsystem : public UGameInstanceSubsystem, public FTickableGameObject
 {
 	GENERATED_BODY()
 	
@@ -18,6 +18,17 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 	/** end USubsystem Parent */
+	
+	/** FTickableGameObject Parent */
+	virtual UWorld* GetTickableGameObjectWorld() const override;
+	/** end FTickableGameObject Parent */
+	
+	/** FTickableObjectBase Parent */
+	virtual void Tick(float DeltaTime) override;
+	virtual ETickableTickType GetTickableTickType() const override;
+	virtual bool IsTickable() const override;
+	virtual TStatId GetStatId() const override;
+	/** end FTickableObjectBase Parent */
 	
 private:
 	
