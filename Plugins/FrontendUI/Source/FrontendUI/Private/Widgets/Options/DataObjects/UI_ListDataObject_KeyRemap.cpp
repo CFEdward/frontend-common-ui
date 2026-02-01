@@ -34,6 +34,17 @@ void UUI_ListDataObject_KeyRemap::BindNewInputKey(const FKey& InNewKey)
 	NotifyListDataModified(this);
 }
 
+bool UUI_ListDataObject_KeyRemap::IsKeyAlreadyMapped(const FKey& NewKey) const
+{
+	check(CachedOwningKeyProfile);
+	
+	TArray<FName> ExistingMappings;
+	const int32 NumExistingMappings = CachedOwningKeyProfile->GetMappingNamesForKey(NewKey, ExistingMappings);
+	if (NumExistingMappings > 0) return true;
+	
+	return false;
+}
+
 FSlateBrush UUI_ListDataObject_KeyRemap::GetIconFromCurrentKey() const
 {
 	check(CachedOwningInputUserSettings);

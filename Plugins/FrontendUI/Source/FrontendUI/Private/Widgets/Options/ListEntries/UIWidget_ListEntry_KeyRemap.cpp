@@ -4,7 +4,6 @@
 #include "Widgets/Options/ListEntries/UIWidget_ListEntry_KeyRemap.h"
 
 #include "UI_BlueprintLibrary.h"
-#include "UI_DebugHelper.h"
 #include "UI_GameplayTags.h"
 #include "Subsystems/UI_Subsystem.h"
 #include "Widgets/UIWidget_ActivatableBase.h"
@@ -97,8 +96,23 @@ void UUIWidget_ListEntry_KeyRemap::ResetKeyBindingButtonClicked()
 
 void UUIWidget_ListEntry_KeyRemap::OnKeyToRemapPressed(const FKey& PressedKey)
 {
+	SelectThisEntryWidget();
+	
 	if (CachedOwningKeyRemapDataObject)
 	{
+		if (CachedOwningKeyRemapDataObject->IsKeyAlreadyMapped(PressedKey))
+		{
+			// TODO: Give the player the option to automatically unmap the conflicting key. This requires adding a "None" keybinding which isn't implemented yet.
+			UUI_Subsystem::Get(this)->PushConfirmScreenToModalStackAsync(
+				EConfirmScreenType::OK,
+				FText::FromString(TEXT("Key is already mapped")),
+				FText::FromString(TEXT("The key ") + PressedKey.GetDisplayName().ToString() + TEXT(" is already mapped!")),
+				[](EConfirmScreenButtonType ClickedButton){}
+			);
+			
+			return;
+		}
+		
 		CachedOwningKeyRemapDataObject->BindNewInputKey(PressedKey);
 	}
 }

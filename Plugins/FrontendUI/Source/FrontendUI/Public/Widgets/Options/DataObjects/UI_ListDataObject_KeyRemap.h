@@ -22,6 +22,8 @@ public:
 	
 	void BindNewInputKey(const FKey& InNewKey);
 	
+	bool IsKeyAlreadyMapped(const FKey& NewKey) const;
+	
 	/** UUI_ListDataObject_Base Parent */
 	virtual bool HasDefaultValue() const override;
 	virtual bool CanResetBackToDefaultValue() const override;
