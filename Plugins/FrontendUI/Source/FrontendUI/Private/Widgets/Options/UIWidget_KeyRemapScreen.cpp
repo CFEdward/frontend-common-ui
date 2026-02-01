@@ -3,16 +3,18 @@
 
 #include "Widgets/Options/UIWidget_KeyRemapScreen.h"
 
+#include "CommonInputSubsystem.h"
 #include "CommonRichTextBlock.h"
-#include "UI_DebugHelper.h"
+#include "CommonUITypes.h"
+#include "ICommonInputModule.h"
 #include "Framework/Application/IInputProcessor.h"
 
 class FKeyRemapScreenInputPreprocessor : public IInputProcessor
 {
 public:
 	
-	FKeyRemapScreenInputPreprocessor(const ECommonInputType InInputTypeToListenTo)
-		: CachedInputTypeToListenTo(InInputTypeToListenTo)
+	FKeyRemapScreenInputPreprocessor(const ECommonInputType InInputTypeToListenTo, ULocalPlayer* InOwningLocalPlayer)
+		: CachedInputTypeToListenTo(InInputTypeToListenTo), CachedWeakOwningLocalPlayer(InOwningLocalPlayer)
 	{
 		
 	}
@@ -54,10 +56,15 @@ private:
 			return;
 		}
 		
+		UCommonInputSubsystem* CommonInputSubsystem = UCommonInputSubsystem::Get(CachedWeakOwningLocalPlayer.Get());
+		check(CommonInputSubsystem);
+		
+		ECommonInputType CurrentInputType = CommonInputSubsystem->GetCurrentInputType();
+		
 		switch (CachedInputTypeToListenTo)
 		{
 		case ECommonInputType::MouseAndKeyboard:
-			if (InPressedKey.IsGamepadKey())
+			if (InPressedKey.IsGamepadKey() || CurrentInputType == ECommonInputType::Gamepad)
 			{
 				OnInputPreProcessorKeySelectCancelled.ExecuteIfBound(TEXT("Detected Gamepad Key pressed for keyboard inputs. Key Remap has been cancelled."));
 				
@@ -66,6 +73,15 @@ private:
 			break;
 			
 		case ECommonInputType::Gamepad:
+			if (CurrentInputType == ECommonInputType::Gamepad && InPressedKey == EKeys::LeftMouseButton)
+			{
+				FCommonInputActionDataBase* InputActionData = ICommonInputModule::GetSettings().GetDefaultClickAction().GetRow<FCommonInputActionDataBase>(TEXT(""));
+				check(InputActionData);
+				
+				OnInputPreProcessorKeyPressed.ExecuteIfBound(InputActionData->GetDefaultGamepadInputTypeInfo().GetKey());
+				
+				return;
+			}
 			if (!InPressedKey.IsGamepadKey())
 			{
 				OnInputPreProcessorKeySelectCancelled.ExecuteIfBound(TEXT("Detected non-Gamepad Key pressed for Gamepad inputs. Key Remap has been cancelled."));
@@ -81,13 +97,14 @@ private:
 	}
 	
 	ECommonInputType CachedInputTypeToListenTo;
+	TWeakObjectPtr<ULocalPlayer> CachedWeakOwningLocalPlayer;
 };
 
 void UUIWidget_KeyRemapScreen::NativeOnActivated()
 {
 	Super::NativeOnActivated();
 	
-	CachedInputPreprocessor = MakeShared<FKeyRemapScreenInputPreprocessor>(CachedDesiredInputType);
+	CachedInputPreprocessor = MakeShared<FKeyRemapScreenInputPreprocessor>(CachedDesiredInputType, GetOwningLocalPlayer());
 	CachedInputPreprocessor->OnInputPreProcessorKeyPressed.BindUObject(this, &ThisClass::OnValidKeyPressedDetected);
 	CachedInputPreprocessor->OnInputPreProcessorKeySelectCancelled.BindUObject(this, &ThisClass::OnKeySelectCancelled);
 	
