@@ -5,6 +5,7 @@
 
 #include "PreLoadScreenManager.h"
 #include "Blueprint/UserWidget.h"
+#include "Interfaces/UI_LoadingScreenInterface.h"
 #include "UISettings/UI_LoadingScreenSettings.h"
 
 bool UUI_LoadingScreenSubsystem::ShouldCreateSubsystem(UObject* Outer) const
@@ -137,16 +138,44 @@ void UUI_LoadingScreenSubsystem::TryRemoveLoadingScreen()
 	NotifyLoadingScreenVisibilityChanged(false);
 }
 
-void UUI_LoadingScreenSubsystem::NotifyLoadingScreenVisibilityChanged(bool bIsVisible)
+void UUI_LoadingScreenSubsystem::NotifyLoadingScreenVisibilityChanged(const bool bIsVisible) const
 {
-	for (ULocalPlayer* ExistingLocalPlayer : GetGameInstance()->GetLocalPlayers())
+	for (const ULocalPlayer* ExistingLocalPlayer : GetGameInstance()->GetLocalPlayers())
 	{
 		if (!ExistingLocalPlayer) continue;
 		
 		if (APlayerController* PC = ExistingLocalPlayer->GetPlayerController(GetGameInstance()->GetWorld()))
 		{
 			// Query if the Player Controller implements the Interface. Call the function through the Interface to notify the loading status if yes
+			if (PC->Implements<UUI_LoadingScreenInterface>())
+			{
+				if (bIsVisible)
+				{
+					IUI_LoadingScreenInterface::Execute_OnLoadingScreenActivated(PC);
+				}
+				else
+				{
+					IUI_LoadingScreenInterface::Execute_OnLoadingScreenDeactivated(PC);
+				}
+			}
+			
+			if (APawn* OwningPawn = PC->GetPawn())
+			{
+				if (OwningPawn->Implements<UUI_LoadingScreenInterface>())
+				{
+					if (bIsVisible)
+					{
+						IUI_LoadingScreenInterface::Execute_OnLoadingScreenActivated(OwningPawn);
+					}
+					else
+					{
+						IUI_LoadingScreenInterface::Execute_OnLoadingScreenDeactivated(OwningPawn);
+					}
+				}
+			}
 		}
+		
+		// The code for notifying other objects in the world goes here
 	}
 }
 
