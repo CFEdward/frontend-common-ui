@@ -68,6 +68,12 @@ TStatId UUI_LoadingScreenSubsystem::GetStatId() const
 	RETURN_QUICK_DECLARE_CYCLE_STAT(UUI_LoadingScreenSubsystem, STATGROUP_Tickables);
 }
 
+bool UUI_LoadingScreenSubsystem::ShouldShowLoadingScreenInEditor() const
+{
+	const UUI_LoadingScreenSettings* LoadingScreenSettings = GetDefault<UUI_LoadingScreenSettings>();
+	return LoadingScreenSettings->bShouldShowLoadingScreenInEditor;
+}
+
 void UUI_LoadingScreenSubsystem::OnMapPreLoaded(const FWorldContext& WorldContext, const FString& MapName)
 {
 	if (WorldContext.OwningGameInstance != GetGameInstance()) return;
