@@ -39,6 +39,8 @@ void UUIWidget_ListEntry_KeyRemap::OnOwningListDataObjectModified(UUI_ListDataOb
 
 void UUIWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 {
+	SelectThisEntryWidget();
+	
 	UUI_Subsystem::Get(this)->PushSoftWidgetToStackAsync(
 		Frontend::WidgetStack::Modal,
 		UUI_BlueprintLibrary::GetFrontendSoftWidgetClassByTag(Frontend::Widget::KeyRemapScreen),
@@ -61,7 +63,11 @@ void UUIWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 
 void UUIWidget_ListEntry_KeyRemap::ResetKeyBindingButtonClicked()
 {
-	Debug::Print(TEXT("Reset Key Binding Button Clicked"));
+	SelectThisEntryWidget();
+	
+	// Check if the current key is already the default key. Display an OK screen that says this is already the default key
+	
+	// Reset the key binding back to default
 }
 
 void UUIWidget_ListEntry_KeyRemap::OnKeyToRemapPressed(const FKey& PressedKey)

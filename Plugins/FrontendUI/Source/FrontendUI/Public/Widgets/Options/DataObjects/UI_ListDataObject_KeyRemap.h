@@ -25,6 +25,14 @@ public:
 	FSlateBrush GetIconFromCurrentKey() const;
 	FORCEINLINE ECommonInputType GetDesiredInputKeyType() const { return CachedDesiredInputKeyType; }
 	
+protected:
+	
+	/** UUI_ListDataObject_Base Parent */
+	virtual bool HasDefaultValue() const override;
+	virtual bool CanResetBackToDefaultValue() const override;
+	virtual bool TryResetBackToDefaultValue() override;
+	/** end UUI_ListDataObject_Base Parent */
+	
 private:
 	
 	FPlayerKeyMapping* GetOwningKeyMapping() const;

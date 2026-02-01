@@ -61,6 +61,32 @@ FSlateBrush UUI_ListDataObject_KeyRemap::GetIconFromCurrentKey() const
 	return FoundBrush;
 }
 
+bool UUI_ListDataObject_KeyRemap::HasDefaultValue() const
+{
+	return GetOwningKeyMapping()->GetDefaultKey().IsValid();
+}
+
+bool UUI_ListDataObject_KeyRemap::CanResetBackToDefaultValue() const
+{
+	return HasDefaultValue() && GetOwningKeyMapping()->IsCustomized();
+}
+
+bool UUI_ListDataObject_KeyRemap::TryResetBackToDefaultValue()
+{
+	if (CanResetBackToDefaultValue())
+	{
+		check(CachedOwningInputUserSettings);
+		
+		GetOwningKeyMapping()->ResetToDefault();
+		CachedOwningInputUserSettings->SaveSettings();
+		NotifyListDataModified(this, EOptionsListDataModifyReason::ResetToDefault);
+		
+		return true;
+	}
+	
+	return false;
+}
+
 FPlayerKeyMapping* UUI_ListDataObject_KeyRemap::GetOwningKeyMapping() const
 {
 	check(CachedOwningKeyProfile);
