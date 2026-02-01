@@ -34,9 +34,6 @@ public:
 	virtual TStatId GetStatId() const override;
 	/** end FTickableObjectBase Parent */
 	
-	UFUNCTION(BlueprintPure)
-	bool ShouldShowLoadingScreenInEditor() const;
-	
 private:
 	
 	void OnMapPreLoaded(const FWorldContext& WorldContext, const FString& MapName);

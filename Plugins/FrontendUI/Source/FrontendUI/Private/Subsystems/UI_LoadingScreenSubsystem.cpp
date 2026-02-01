@@ -68,12 +68,6 @@ TStatId UUI_LoadingScreenSubsystem::GetStatId() const
 	RETURN_QUICK_DECLARE_CYCLE_STAT(UUI_LoadingScreenSubsystem, STATGROUP_Tickables);
 }
 
-bool UUI_LoadingScreenSubsystem::ShouldShowLoadingScreenInEditor() const
-{
-	const UUI_LoadingScreenSettings* LoadingScreenSettings = GetDefault<UUI_LoadingScreenSettings>();
-	return LoadingScreenSettings->bShouldShowLoadingScreenInEditor;
-}
-
 void UUI_LoadingScreenSubsystem::OnMapPreLoaded(const FWorldContext& WorldContext, const FString& MapName)
 {
 	if (WorldContext.OwningGameInstance != GetGameInstance()) return;
@@ -112,6 +106,7 @@ void UUI_LoadingScreenSubsystem::TryUpdateLoadingScreen()
 		HoldLoadingScreenStartUpTime = -1.f;
 		
 		// Notify the loading is complete
+		NotifyLoadingScreenVisibilityChanged(false);
 		
 		// Disable the ticking
 		SetTickableTickType(ETickableTickType::Never);
@@ -140,8 +135,6 @@ void UUI_LoadingScreenSubsystem::TryRemoveLoadingScreen()
 	
 	GetGameInstance()->GetGameViewportClient()->RemoveViewportWidgetContent(CachedCreatedLoadingScreenWidget.ToSharedRef());
 	CachedCreatedLoadingScreenWidget.Reset();
-	
-	NotifyLoadingScreenVisibilityChanged(false);
 }
 
 void UUI_LoadingScreenSubsystem::NotifyLoadingScreenVisibilityChanged(const bool bIsVisible) const
