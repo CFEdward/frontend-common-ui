@@ -47,6 +47,9 @@ void UUIWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 			if (PushState == EAsyncPushWidgetState::OnCreatedBeforePush)
 			{
 				UUIWidget_KeyRemapScreen* CreatedKeyRemapScreen = CastChecked<UUIWidget_KeyRemapScreen>(PushedWidget);
+				CreatedKeyRemapScreen->OnKeyRemapScreenKeyPressed.BindUObject(this, &ThisClass::OnKeyToRemapPressed);
+				CreatedKeyRemapScreen->OnKeyRemapScreenKeySelectCancelled.BindUObject(this, &ThisClass::OnKeyRemapCancelled);
+				
 				if (CachedOwningKeyRemapDataObject)
 				{
 					CreatedKeyRemapScreen->SetDesiredInputTypeToFilter(CachedOwningKeyRemapDataObject->GetDesiredInputKeyType());
@@ -59,4 +62,19 @@ void UUIWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 void UUIWidget_ListEntry_KeyRemap::ResetKeyBindingButtonClicked()
 {
 	Debug::Print(TEXT("Reset Key Binding Button Clicked"));
+}
+
+void UUIWidget_ListEntry_KeyRemap::OnKeyToRemapPressed(const FKey& PressedKey)
+{
+	Debug::Print(TEXT("Valid key to remap detected. Key: ") + PressedKey.GetDisplayName().ToString());
+}
+
+void UUIWidget_ListEntry_KeyRemap::OnKeyRemapCancelled(const FString& CancelReason)
+{
+	UUI_Subsystem::Get(this)->PushConfirmScreenToModalStackAsync(
+		EConfirmScreenType::OK,
+		FText::FromString(TEXT("Key Remap")),
+		FText::FromString(CancelReason),
+		[](EConfirmScreenButtonType ClickedButton){}
+	);
 }

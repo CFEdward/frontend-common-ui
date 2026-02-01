@@ -30,6 +30,9 @@ private:
 	void OnRemapKeyButtonClicked();
 	void ResetKeyBindingButtonClicked();
 	
+	void OnKeyToRemapPressed(const FKey& PressedKey);
+	void OnKeyRemapCancelled(const FString& CancelReason);
+	
 	UPROPERTY(Transient)
 	TObjectPtr<UUI_ListDataObject_KeyRemap> CachedOwningKeyRemapDataObject;
 	
