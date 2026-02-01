@@ -66,7 +66,10 @@ void UUIWidget_ListEntry_KeyRemap::ResetKeyBindingButtonClicked()
 
 void UUIWidget_ListEntry_KeyRemap::OnKeyToRemapPressed(const FKey& PressedKey)
 {
-	Debug::Print(TEXT("Valid key to remap detected. Key: ") + PressedKey.GetDisplayName().ToString());
+	if (CachedOwningKeyRemapDataObject)
+	{
+		CachedOwningKeyRemapDataObject->BindNewInputKey(PressedKey);
+	}
 }
 
 void UUIWidget_ListEntry_KeyRemap::OnKeyRemapCancelled(const FString& CancelReason)
