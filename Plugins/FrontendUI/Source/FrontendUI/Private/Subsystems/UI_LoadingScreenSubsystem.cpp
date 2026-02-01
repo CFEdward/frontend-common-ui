@@ -42,7 +42,7 @@ UWorld* UUI_LoadingScreenSubsystem::GetTickableGameObjectWorld() const
 
 void UUI_LoadingScreenSubsystem::Tick(float DeltaTime)
 {
-	Debug::Print(TEXT("Ticking"));
+	TryUpdateLoadingScreen();
 }
 
 ETickableTickType UUI_LoadingScreenSubsystem::GetTickableTickType() const
@@ -67,10 +67,38 @@ TStatId UUI_LoadingScreenSubsystem::GetStatId() const
 
 void UUI_LoadingScreenSubsystem::OnMapPreLoaded(const FWorldContext& WorldContext, const FString& MapName)
 {
+	if (WorldContext.OwningGameInstance != GetGameInstance()) return;
 	
+	SetTickableTickType(ETickableTickType::Conditional);
+	bIsCurrentlyLoadingMap = true;
+	
+	TryUpdateLoadingScreen();
 }
 
 void UUI_LoadingScreenSubsystem::OnMapPostLoaded(UWorld* LoadedWorld)
 {
+	if (LoadedWorld && LoadedWorld->GetGameInstance() == GetGameInstance())
+	{
+		bIsCurrentlyLoadingMap = false;
+	}
+}
+
+void UUI_LoadingScreenSubsystem::TryUpdateLoadingScreen()
+{
+	// Check if there's any start up loading screen that's currently active
 	
+	// Check if we should show the loading screen
+	if (true)
+	{
+		// Try to display the loading screen here
+	}
+	else
+	{
+		// Try to remove the current active loading screen
+		
+		// Notify the loading is complete
+		
+		// Disable the ticking
+		SetTickableTickType(ETickableTickType::Never);
+	}
 }
