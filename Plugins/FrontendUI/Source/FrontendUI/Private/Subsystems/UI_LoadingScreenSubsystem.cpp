@@ -3,7 +3,7 @@
 
 #include "Subsystems/UI_LoadingScreenSubsystem.h"
 
-#include "UI_DebugHelper.h"
+#include "PreLoadScreenManager.h"
 
 bool UUI_LoadingScreenSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
@@ -86,6 +86,7 @@ void UUI_LoadingScreenSubsystem::OnMapPostLoaded(UWorld* LoadedWorld)
 void UUI_LoadingScreenSubsystem::TryUpdateLoadingScreen()
 {
 	// Check if there's any start up loading screen that's currently active
+	if (IsPreLoadScreenActive()) return;
 	
 	// Check if we should show the loading screen
 	if (true)
@@ -101,4 +102,14 @@ void UUI_LoadingScreenSubsystem::TryUpdateLoadingScreen()
 		// Disable the ticking
 		SetTickableTickType(ETickableTickType::Never);
 	}
+}
+
+bool UUI_LoadingScreenSubsystem::IsPreLoadScreenActive() const
+{
+	if (const FPreLoadScreenManager* PreLoadScreenManager = FPreLoadScreenManager::Get())
+	{
+		return PreLoadScreenManager->HasValidActivePreLoadScreen();
+	}
+	
+	return false;
 }

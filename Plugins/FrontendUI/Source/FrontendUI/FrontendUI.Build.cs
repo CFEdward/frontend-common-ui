@@ -30,7 +30,8 @@ public class FrontendUI : ModuleRules
 				"DeveloperSettings",
 				"CommonInput",
 				"PropertyPath",
-				"EnhancedInput"
+				"EnhancedInput",
+				"PreLoadScreen"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
