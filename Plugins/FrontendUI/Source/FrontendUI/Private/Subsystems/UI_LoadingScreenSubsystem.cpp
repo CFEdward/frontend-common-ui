@@ -123,6 +123,8 @@ void UUI_LoadingScreenSubsystem::TryDisplayLoadingScreenIfNone()
 	check(CreatedWidget);
 	CachedCreatedLoadingScreenWidget = CreatedWidget->TakeWidget();
 	GetGameInstance()->GetGameViewportClient()->AddViewportWidgetContent(CachedCreatedLoadingScreenWidget.ToSharedRef(), 1000);
+	
+	NotifyLoadingScreenVisibilityChanged(true);
 }
 
 void UUI_LoadingScreenSubsystem::TryRemoveLoadingScreen()
@@ -131,6 +133,21 @@ void UUI_LoadingScreenSubsystem::TryRemoveLoadingScreen()
 	
 	GetGameInstance()->GetGameViewportClient()->RemoveViewportWidgetContent(CachedCreatedLoadingScreenWidget.ToSharedRef());
 	CachedCreatedLoadingScreenWidget.Reset();
+	
+	NotifyLoadingScreenVisibilityChanged(false);
+}
+
+void UUI_LoadingScreenSubsystem::NotifyLoadingScreenVisibilityChanged(bool bIsVisible)
+{
+	for (ULocalPlayer* ExistingLocalPlayer : GetGameInstance()->GetLocalPlayers())
+	{
+		if (!ExistingLocalPlayer) continue;
+		
+		if (APlayerController* PC = ExistingLocalPlayer->GetPlayerController(GetGameInstance()->GetWorld()))
+		{
+			// Query if the Player Controller implements the Interface. Call the function through the Interface to notify the loading status if yes
+		}
+	}
 }
 
 bool UUI_LoadingScreenSubsystem::IsPreLoadScreenActive() const

@@ -43,6 +43,8 @@ private:
 	void TryDisplayLoadingScreenIfNone();
 	void TryRemoveLoadingScreen();
 	
+	void NotifyLoadingScreenVisibilityChanged(bool bIsVisible);
+	
 	bool IsPreLoadScreenActive() const;
 	bool ShouldShowLoadingScreen();
 	bool CheckTheNeedToShowLoadingScreen();
