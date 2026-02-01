@@ -40,6 +40,7 @@ private:
 	void OnMapPostLoaded(UWorld* LoadedWorld);
 	
 	void TryUpdateLoadingScreen();
+	void TryDisplayLoadingScreenIfNone();
 	
 	bool IsPreLoadScreenActive() const;
 	bool ShouldShowLoadingScreen();
@@ -49,4 +50,6 @@ private:
 	float HoldLoadingScreenStartUpTime{ - 1.f };
 	
 	FString CurrentLoadingReason;
+	
+	TSharedPtr<SWidget> CachedCreatedLoadingScreenWidget;
 };

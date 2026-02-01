@@ -4,6 +4,7 @@
 #include "Subsystems/UI_LoadingScreenSubsystem.h"
 
 #include "PreLoadScreenManager.h"
+#include "Blueprint/UserWidget.h"
 #include "UISettings/UI_LoadingScreenSettings.h"
 
 bool UUI_LoadingScreenSubsystem::ShouldCreateSubsystem(UObject* Outer) const
@@ -93,6 +94,7 @@ void UUI_LoadingScreenSubsystem::TryUpdateLoadingScreen()
 	if (ShouldShowLoadingScreen())
 	{
 		// Try to display the loading screen here
+		TryDisplayLoadingScreenIfNone();
 		
 		OnLoadingReasonUpdated.Broadcast(CurrentLoadingReason);
 	}
@@ -105,6 +107,20 @@ void UUI_LoadingScreenSubsystem::TryUpdateLoadingScreen()
 		// Disable the ticking
 		SetTickableTickType(ETickableTickType::Never);
 	}
+}
+
+void UUI_LoadingScreenSubsystem::TryDisplayLoadingScreenIfNone()
+{
+	// If there's already an active loading screen, return early
+	if (CachedCreatedLoadingScreenWidget) return;
+	
+	const UUI_LoadingScreenSettings* LoadingScreenSettings = GetDefault<UUI_LoadingScreenSettings>();
+	const TSubclassOf<UUserWidget> LoadedWidgetClass = LoadingScreenSettings->GetLoadingScreenWidgetClassChecked();
+
+	UUserWidget* CreatedWidget = UUserWidget::CreateWidgetInstance(*GetGameInstance(), LoadedWidgetClass, NAME_None);
+	check(CreatedWidget);
+	CachedCreatedLoadingScreenWidget = CreatedWidget->TakeWidget();
+	GetGameInstance()->GetGameViewportClient()->AddViewportWidgetContent(CachedCreatedLoadingScreenWidget.ToSharedRef(), 1000);
 }
 
 bool UUI_LoadingScreenSubsystem::IsPreLoadScreenActive() const
@@ -120,7 +136,7 @@ bool UUI_LoadingScreenSubsystem::IsPreLoadScreenActive() const
 bool UUI_LoadingScreenSubsystem::ShouldShowLoadingScreen()
 {
 	const UUI_LoadingScreenSettings* LoadingScreenSettings = GetDefault<UUI_LoadingScreenSettings>();
-	if (GIsEditor && LoadingScreenSettings->bShouldShowLoadingScreenInEditor) return false;
+	if (GIsEditor && !LoadingScreenSettings->bShouldShowLoadingScreenInEditor) return false;
 	
 	// Check if the objects in the world need a loading screen
 	if (CheckTheNeedToShowLoadingScreen())
@@ -158,8 +174,8 @@ bool UUI_LoadingScreenSubsystem::CheckTheNeedToShowLoadingScreen()
 		
 		return true;
 	}
-	
-	UWorld* OwningWorld = GetGameInstance()->GetWorld();
+
+	const UWorld* OwningWorld = GetGameInstance()->GetWorld();
 	if (!OwningWorld)
 	{
 		CurrentLoadingReason = TEXT("Initializing World");
@@ -172,7 +188,7 @@ bool UUI_LoadingScreenSubsystem::CheckTheNeedToShowLoadingScreen()
 		
 		return true;
 	}
-	if (OwningWorld->GetFirstPlayerController())
+	if (!OwningWorld->GetFirstPlayerController())
 	{
 		CurrentLoadingReason = TEXT("Player Controller is not valid yet");
 		
