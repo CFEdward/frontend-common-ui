@@ -13,6 +13,10 @@ class FRONTENDUI_API UUI_LoadingScreenSubsystem : public UGameInstanceSubsystem,
 	
 public:
 	
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLoadingReasonUpdatedDelegate, const FString&, CurrentLoadingReason);
+	UPROPERTY(BlueprintAssignable)
+	FOnLoadingReasonUpdatedDelegate OnLoadingReasonUpdated;
+	
 	/** USubsystem Parent */
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
@@ -43,4 +47,6 @@ private:
 	
 	bool bIsCurrentlyLoadingMap{ false };
 	float HoldLoadingScreenStartUpTime{ - 1.f };
+	
+	FString CurrentLoadingReason;
 };
