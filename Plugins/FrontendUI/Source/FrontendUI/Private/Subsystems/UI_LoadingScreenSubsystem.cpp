@@ -4,6 +4,7 @@
 #include "Subsystems/UI_LoadingScreenSubsystem.h"
 
 #include "PreLoadScreenManager.h"
+#include "UISettings/UI_LoadingScreenSettings.h"
 
 bool UUI_LoadingScreenSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
@@ -89,7 +90,7 @@ void UUI_LoadingScreenSubsystem::TryUpdateLoadingScreen()
 	if (IsPreLoadScreenActive()) return;
 	
 	// Check if we should show the loading screen
-	if (true)
+	if (ShouldShowLoadingScreen())
 	{
 		// Try to display the loading screen here
 	}
@@ -111,5 +112,41 @@ bool UUI_LoadingScreenSubsystem::IsPreLoadScreenActive() const
 		return PreLoadScreenManager->HasValidActivePreLoadScreen();
 	}
 	
+	return false;
+}
+
+bool UUI_LoadingScreenSubsystem::ShouldShowLoadingScreen()
+{
+	const UUI_LoadingScreenSettings* LoadingScreenSettings = GetDefault<UUI_LoadingScreenSettings>();
+	if (GIsEditor && LoadingScreenSettings->bShouldShowLoadingScreenInEditor) return false;
+	
+	// Check if the objects in the world need a loading screen
+	if (CheckTheNeedToShowLoadingScreen())
+	{
+		GetGameInstance()->GetGameViewportClient()->bDisableWorldRendering = true;
+		
+		return true;
+	}
+	
+	// There's no need to show the loading screen. Allow the world to be rendered to our viewport here
+	GetGameInstance()->GetGameViewportClient()->bDisableWorldRendering = false;
+	
+	const float CurrentTime = FPlatformTime::Seconds();
+	if (HoldLoadingScreenStartUpTime < 0.f)
+	{
+		HoldLoadingScreenStartUpTime = CurrentTime;
+	}
+	
+	const float ElapsedTime = CurrentTime - HoldLoadingScreenStartUpTime;
+	if (ElapsedTime < LoadingScreenSettings->HoldLoadingScreenExtraSeconds)
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+bool UUI_LoadingScreenSubsystem::CheckTheNeedToShowLoadingScreen()
+{
 	return false;
 }

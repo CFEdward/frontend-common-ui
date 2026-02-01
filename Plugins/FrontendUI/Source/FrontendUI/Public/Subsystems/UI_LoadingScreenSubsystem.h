@@ -38,6 +38,9 @@ private:
 	void TryUpdateLoadingScreen();
 	
 	bool IsPreLoadScreenActive() const;
+	bool ShouldShowLoadingScreen();
+	bool CheckTheNeedToShowLoadingScreen();
 	
 	bool bIsCurrentlyLoadingMap{ false };
+	float HoldLoadingScreenStartUpTime{ - 1.f };
 };
